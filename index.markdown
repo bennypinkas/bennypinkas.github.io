@@ -7,15 +7,30 @@ title: Benny Pinkas
 ---
 
 
-| ![Profile picture](../bennyp.jpg){: width="350" } | **Benny Pinkas**<br> [Dept. of Computer Science](https://cs.biu.ac.il/) and Center for Research in Applied Cryptography and Cyber Security<br>[Bar Ilan University](https://biu.ac.il/en) <br> Email: my-first-name at pinkas.net<br> <br> [[Linkedin]](https://www.linkedin.com/in/benny-pinkas-31336/) [[Google Scholar]](https://scholar.google.com/citations?user=tpMNnPwAAAAJ&hl=e) [[DBLP]](https://dblp.org/pid/31/1735.html)|
+| ![Profile picture](../bennyp.jpg){: width="350" } | **Benny Pinkas**<br> [Dept. of Computer Science](https://cs.biu.ac.il/) and Center for Research in Applied Cryptography and Cyber Security<br>[Bar Ilan University](https://biu.ac.il/en) <br> Email: my-first-name at pinkas.net<br> <br> **[[Linkedin]](https://www.linkedin.com/in/benny-pinkas-31336/) [[Google Scholar]](https://scholar.google.com/citations?user=tpMNnPwAAAAJ&hl=e) [[DBLP]](https://dblp.org/pid/31/1735.html)**|
 
 ---  
-### Research Interests:  
+### Interests:  
 - **I am interested in applied cryptography, computer security, blockchain security, and privacy, focusing on the design of efficient security systems based on sound assumptions and solid proofs.**  
 - From September 2022 to October 2024 I worked at [Aptos Labs](https://aptoslabs.com/).
 - During the 2011/2 academic year I was on sabbatical at [Google Research](http://www.google.com/). I previously worked at the [University of Haifa](https://cs.hevra.haifa.ac.il/index.php/en/), at HP Labs in Haifa and in Princeton, and at [STAR Labs](http://web.archive.org/web/*/http:/www.star-lab.com/), [Intertrust Technologies](http://www.intertrust.com/).  
 - Before that I was a Ph.D. student of [Moni Naor](http://www.wisdom.weizmann.ac.il/%7Enaor)
 at the [Weizmann Institute of Science](http://www.wisdom.weizmann.ac.il/).
+
+---  
+## Research highlights
+I coauthored results which demonstrated that **secure multi-party computation (MPC)** can go beyond theoretical exploration and be used for implementing actual systems. These results include an early system that used secure computation for running [privacy preserving auctions](https://www.wisdom.weizmann.ac.il/~naor/PAPERS/nps.pdf) (1999); the [Fairplay system](../PAPERS/MNPS.pdf), which was the first system that enabled non-cryptographers to use
+   generic secure computation (2004); the first design and implementation of [secure computation of the AES cipher](http://eprint.iacr.org/2009/314.pdf) (2009); and
+   many other results on improving the generality and efficiency of secure computation. I also made many contributions to  efficient [Private Set Intersection -- PSI](https://en.wikipedia.org/wiki/Private_set_intersection), and focused on applying MPC for privacy preserving analytics of very large data. 
+
+
+In addition to research on MPC, I often do research on other aspects of cyber security.
+
+- In a [paper](../PAPERS/pwdweb.pdf) from 2002 we suggested to selectively combine **CAPTCHAs** in the user-authentication process, as an additional measure against dictionary attacks. (At the time of the publication of this work, CAPTCHAs were already known and were typically used for ensuring that only human users can receive specific services, but they were not used for protecting login attempts.) The solution that we proposed, which was new at the time, is now a common practice of almost all web services. 
+- Our work on zero-knowledge proofs for solutions of **[Sudoku puzzles](PAPERS/sud_journal.pdf)** is widely used to demonstrate the concept of zero-knowledge proofs.
+- Our work on **file deduplication** in [2010](./../PAPERS/hps.pdf) and [2011](http://eprint.iacr.org/2011/207) demonstrated the insecurity of deduplication in cloud storage.
+- Following our work on the security of the **random number generators** of the [Linux](http://eprint.iacr.org/2006/086)  (in 2006), and of [Windows](http://eprint.iacr.org/2007/419) (in 2007) changes were applied to both systems to overcome the vulnerabilities that were discovered by us.
+- A set of works on **network security** showed how different network fields, such as  [*IP ID*](https://www.usenix.org/system/files/sec19-klein.pdf), and the *flow label* in [IPv6](https://www.computer.org/csdl/proceedings-article/sp/2020/349700b594/1j2LgrHDR2o), enable to run a cryptanlysis of internal operating system functions in both Windows and Linux/Android, and even remotely break  KASLR security. As a result, both Microsoft and Linux twice applied patches that were pushed to all customers. 
 
 ---  
 ## Videos
@@ -392,7 +407,7 @@ Yaniv Ben-Itzhak, Helen Möllering, Benny Pinkas, Thomas Schneider, Ajith Suresh
   **Cryptographic and Physical Zero-Knowledge Proof Systems for Solutions of Sudoku Puzzles**  
   *Proc. of *Fun with Algorithms 2007*, LNCS 4475, Springer-Verlag, pp. 166-182, June 2007  
   Full version in Theory of Computing Systems, Springer, Vol. 44, No. 2, pp. 245-268, February 2009  
-  Available files: [proceedings version](sud_proc.pdf), [full version](sud_journal.pdf), [journal version](http://www.springerlink.com/content/w5534381621tp331/)
+  Available files: [proceedings version](PAPERS/sud_proc.pdf), [full version](PAPERS/sud_journal.pdf), [journal version](http://www.springerlink.com/content/w5534381621tp331/)
 
 - Y. Lindell and B. Pinkas  
   **An Efficient Protocol for Secure Two-Party Computation in the Presence of Malicious Adversaries**  
@@ -513,7 +528,7 @@ Available files: [Postscript (full version)](../PAPERS/revocation.ps)
 - M. Naor, B. Pinkas and R. Sumner  
 **Privacy Preserving Auctions and Mechanism Design**  
 *Proceedings of the 1st ACM Conference on Electronic Commerce*, November 1999.  
-Available files: [Postscript](../PAPERS/aip.ps) | [Presentation](presentation/index.htm)
+Available files: [pdf](https://www.wisdom.weizmann.ac.il/~naor/PAPERS/nps.pdf)
 
 
 - M. Naor and B. Pinkas  

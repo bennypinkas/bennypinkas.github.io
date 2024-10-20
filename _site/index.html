@@ -45,19 +45,35 @@
   <tbody>
     <tr>
       <td><img src="../bennyp.jpg" alt="Profile picture" width="350" /></td>
-      <td><strong>Benny Pinkas</strong><br /> <a href="https://cs.biu.ac.il/">Dept. of Computer Science</a> and Center for Research in Applied Cryptography and Cyber Security<br /><a href="https://biu.ac.il/en">Bar Ilan University</a> <br /> Email: my-first-name at pinkas.net<br /> <br /> <a href="https://www.linkedin.com/in/benny-pinkas-31336/">[Linkedin]</a> <a href="https://scholar.google.com/citations?user=tpMNnPwAAAAJ&amp;hl=e">[Google Scholar]</a> <a href="https://dblp.org/pid/31/1735.html">[DBLP]</a></td>
+      <td><strong>Benny Pinkas</strong><br /> <a href="https://cs.biu.ac.il/">Dept. of Computer Science</a> and Center for Research in Applied Cryptography and Cyber Security<br /><a href="https://biu.ac.il/en">Bar Ilan University</a> <br /> Email: my-first-name at pinkas.net<br /> <br /> <strong><a href="https://www.linkedin.com/in/benny-pinkas-31336/">[Linkedin]</a> <a href="https://scholar.google.com/citations?user=tpMNnPwAAAAJ&amp;hl=e">[Google Scholar]</a> <a href="https://dblp.org/pid/31/1735.html">[DBLP]</a></strong></td>
     </tr>
   </tbody>
 </table>
 
 <hr />
-<h3 id="research-interests">Research Interests:</h3>
+<h3 id="interests">Interests:</h3>
 <ul>
   <li><strong>I am interested in applied cryptography, computer security, blockchain security, and privacy, focusing on the design of efficient security systems based on sound assumptions and solid proofs.</strong></li>
   <li>From September 2022 to October 2024 I worked at <a href="https://aptoslabs.com/">Aptos Labs</a>.</li>
   <li>During the 2011/2 academic year I was on sabbatical at <a href="http://www.google.com/">Google Research</a>. I previously worked at the <a href="https://cs.hevra.haifa.ac.il/index.php/en/">University of Haifa</a>, at HP Labs in Haifa and in Princeton, and at <a href="http://web.archive.org/web/*/http:/www.star-lab.com/">STAR Labs</a>, <a href="http://www.intertrust.com/">Intertrust Technologies</a>.</li>
   <li>Before that I was a Ph.D. student of <a href="http://www.wisdom.weizmann.ac.il/%7Enaor">Moni Naor</a>
 at the <a href="http://www.wisdom.weizmann.ac.il/">Weizmann Institute of Science</a>.</li>
+</ul>
+
+<hr />
+<h2 id="research-highlights">Research highlights</h2>
+<p>I coauthored results which demonstrated that <strong>secure multi-party computation (MPC)</strong> can go beyond theoretical exploration and be used for implementing actual systems. These results include an early system that used secure computation for running <a href="https://www.wisdom.weizmann.ac.il/~naor/PAPERS/nps.pdf">privacy preserving auctions</a> (1999); the <a href="../PAPERS/MNPS.pdf">Fairplay system</a>, which was the first system that enabled non-cryptographers to use
+   generic secure computation (2004); the first design and implementation of <a href="http://eprint.iacr.org/2009/314.pdf">secure computation of the AES cipher</a> (2009); and
+   many other results on improving the generality and efficiency of secure computation. I also made many contributions to  efficient <a href="https://en.wikipedia.org/wiki/Private_set_intersection">Private Set Intersection – PSI</a>, and focused on applying MPC for privacy preserving analytics of very large data.</p>
+
+<p>In addition to research on MPC, I often do research on other aspects of cyber security.</p>
+
+<ul>
+  <li>In a <a href="../PAPERS/pwdweb.pdf">paper</a> from 2002 we suggested to selectively combine <strong>CAPTCHAs</strong> in the user-authentication process, as an additional measure against dictionary attacks. (At the time of the publication of this work, CAPTCHAs were already known and were typically used for ensuring that only human users can receive specific services, but they were not used for protecting login attempts.) The solution that we proposed, which was new at the time, is now a common practice of almost all web services.</li>
+  <li>Our work on zero-knowledge proofs for solutions of <strong><a href="PAPERS/sud_journal.pdf">Sudoku puzzles</a></strong> is widely used to demonstrate the concept of zero-knowledge proofs.</li>
+  <li>Our work on <strong>file deduplication</strong> in <a href="./../PAPERS/hps.pdf">2010</a> and <a href="http://eprint.iacr.org/2011/207">2011</a> demonstrated the insecurity of deduplication in cloud storage.</li>
+  <li>Following our work on the security of the <strong>random number generators</strong> of the <a href="http://eprint.iacr.org/2006/086">Linux</a>  (in 2006), and of <a href="http://eprint.iacr.org/2007/419">Windows</a> (in 2007) changes were applied to both systems to overcome the vulnerabilities that were discovered by us.</li>
+  <li>A set of works on <strong>network security</strong> showed how different network fields, such as  <a href="https://www.usenix.org/system/files/sec19-klein.pdf"><em>IP ID</em></a>, and the <em>flow label</em> in <a href="https://www.computer.org/csdl/proceedings-article/sp/2020/349700b594/1j2LgrHDR2o">IPv6</a>, enable to run a cryptanlysis of internal operating system functions in both Windows and Linux/Android, and even remotely break  KASLR security. As a result, both Microsoft and Linux twice applied patches that were pushed to all customers.</li>
 </ul>
 
 <hr />
@@ -505,7 +521,7 @@ See also Microsoft’s confirmation of a similar problem in Windows XP: <a href=
 <strong>Cryptographic and Physical Zero-Knowledge Proof Systems for Solutions of Sudoku Puzzles</strong><br />
 <em>Proc. of *Fun with Algorithms 2007</em>, LNCS 4475, Springer-Verlag, pp. 166-182, June 2007<br />
 Full version in Theory of Computing Systems, Springer, Vol. 44, No. 2, pp. 245-268, February 2009<br />
-Available files: <a href="sud_proc.pdf">proceedings version</a>, <a href="sud_journal.pdf">full version</a>, <a href="http://www.springerlink.com/content/w5534381621tp331/">journal version</a></p>
+Available files: <a href="PAPERS/sud_proc.pdf">proceedings version</a>, <a href="PAPERS/sud_journal.pdf">full version</a>, <a href="http://www.springerlink.com/content/w5534381621tp331/">journal version</a></p>
   </li>
   <li>
     <p>Y. Lindell and B. Pinkas<br />
@@ -632,7 +648,7 @@ Available files: <a href="../PAPERS/revocation.ps">Postscript (full version)</a>
     <p>M. Naor, B. Pinkas and R. Sumner<br />
 <strong>Privacy Preserving Auctions and Mechanism Design</strong><br />
 <em>Proceedings of the 1st ACM Conference on Electronic Commerce</em>, November 1999.<br />
-Available files: <a href="../PAPERS/aip.ps">Postscript</a> | <a href="presentation/index.htm">Presentation</a></p>
+Available files: <a href="https://www.wisdom.weizmann.ac.il/~naor/PAPERS/nps.pdf">pdf</a></p>
   </li>
   <li>
     <p>M. Naor and B. Pinkas<br />
