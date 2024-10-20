@@ -7,7 +7,7 @@ title: Benny Pinkas
 ---
 
 
-| ![Profile picture](../bennyp.jpg) | **Benny Pinkas**<br> [Dept. of Computer Science](https://cs.biu.ac.il/) and Center for Research in Applied Cryptography and Cyber Security<br>[Bar Ilan University](https://biu.ac.il/en) <br> Email: my-first-name at pinkas.net<br> <br> [[Linkedin]](https://www.linkedin.com/in/benny-pinkas-31336/) [[Google Scholar]](https://scholar.google.com/citations?user=tpMNnPwAAAAJ&hl=e) [[DBLP]](https://dblp.org/pid/31/1735.html)|
+| ![Profile picture](../bennyp.jpg){: width="350" } | **Benny Pinkas**<br> [Dept. of Computer Science](https://cs.biu.ac.il/) and Center for Research in Applied Cryptography and Cyber Security<br>[Bar Ilan University](https://biu.ac.il/en) <br> Email: my-first-name at pinkas.net<br> <br> [[Linkedin]](https://www.linkedin.com/in/benny-pinkas-31336/) [[Google Scholar]](https://scholar.google.com/citations?user=tpMNnPwAAAAJ&hl=e) [[DBLP]](https://dblp.org/pid/31/1735.html)|
 
 ---  
 ### Research Interests:  
