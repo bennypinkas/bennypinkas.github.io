@@ -18,7 +18,7 @@ title: Benny Pinkas
 at the [Weizmann Institute of Science](http://www.wisdom.weizmann.ac.il/).
 
 ---  
-# Videos
+## Videos
 Some [Youtube video](https://www.youtube.com/results?search_query=benny+pinkas), including a recent talk on [Distributed randomness using weighted VRFs](https://www.youtube.com/watch?v=-QrKQ0nIX4s), and old popular talks on [Oblivious RAM - ORAM](https://www.youtube.com/watch?v=3RWyVGwG9U8), [ZK for Sudoku](https://www.youtube.com/watch?v=_tGDoys_w5c), [Sigma protocols](https://www.youtube.com/watch?v=XT1Pad0DM24), and [Private Set Intersection - PSI](https://www.youtube.com/watch?v=iXopZ7A7dM0).
 
 ---  
