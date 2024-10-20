@@ -1,0 +1,886 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<!--#exec cgi="/cgi-bin/log.sh" -->
+<HEAD>
+   <TITLE>Secure Accounting and Auditing on the Web</TITLE>
+   <META NAME="WWW-SIN" CONTENT="336">
+   <META NAME="description" CONTENT="">
+   <META NAME="keywords" CONTENT="">
+   <META NAME="resource-type" CONTENT="">
+   <META NAME="distribution" CONTENT="">
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.01Gold (X11; I; SunOS 4.1.4 sun4m) [Netscape]">
+</HEAD>
+<BODY>
+
+<P><!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds ></P>
+
+<H1 ALIGN=CENTER>Secure Accounting and Auditing on the Web </H1>
+
+<CENTER><P><FONT SIZE=+1>Moni Naor and Benny Pinkas<BR>
+Dept. of Applied Mathematics and Computer Science <BR>
+Weizmann Institute of Science <BR>
+Rehovot 76100, Israel <BR>
+<BR>
+</FONT>Email: <A HREF="mailto:naor@wisdom.weizmann.ac.il">naor@wisdom.weizmann.ac.il</A>,
+<A HREF="mailto:bennyp@wisdom.weizmann.ac.il">bennyp@wisdom.weizmann.ac.il</A></P></CENTER>
+
+<H3 ALIGN=CENTER><bold>Abstract </bold></H3>
+
+<BLOCKQUOTE>
+<P><I>The majority of Internet revenues come from connectivity and advertisement
+fees, yet there are almost no means to secure the accounting processes
+which determine these fees from fraudulent behavior , e.g. a scheme to
+provide reliable usage information regarding a web site. There is an enormous
+financial incentive for the web site to inflate this data, and therefore
+measurement schemes should be secure against malicious behavior of the
+site. Measurement schemes which are based on sampling are relatively protected
+from corrupt behavior of web sites but do not provide meaningful data about
+small and medium scale sites. </I></P>
+
+<P><I>We present schemes that measure the amount of service requested from
+servers by clients. The schemes are secure and efficient and provide a
+short proof for the metered data. Immediate applications are a secure measurement
+of visits to a web site and a secure usage based accounting mechanism between
+networks. <BR>
+<BR>
+</I>Keywords: audit, metering, usage based accounting, security, cryptography. </P>
+</BLOCKQUOTE>
+
+<H2><A NAME="SECTION00010000000000000000"></A>1 Introduction</H2>
+
+<P>There has been a considerable amount of work on securing online payments.
+However most of the revenues from Internet ventures do not come from direct
+sales: the largest sums of money are by far those paid for advertising
+and for connectivity to the Internet. There are many different forecasts
+for the future distribution of Internet revenues (see [<A HREF="p336.htm#lesk">12</A>]
+for a discussion of some of these projections), but many of them agree
+that advertising and connectivity will remain the major sources of income
+from the net. In light of these figures it is surprising how little research
+has been conducted towards securing the accounting mechanisms that are
+used by advertising and connectivity providers. </P>
+
+<P>We propose schemes that validate measurements of the amount of service
+that servers perform for their clients, in a manner which is efficient
+and is secure against fraud attempts by servers and clients. There are
+two main applications for such schemes: a certified measurement of the
+usage of web sites, and measurement of the amount of traffic that a communication
+network delivers. Both these applications have a tremendous financial importance
+which makes them targets for frauds and piracy, as was the case with software
+and pay TV piracy which became multi-million dollar businesses (see for
+example [<A HREF="p336.htm#piracy">10</A>] for a detailed description
+of TV piracy practices). It must be concluded that it is essential to develop
+mechanisms that ensure the authenticity and accuracy of usage measurements
+against malicious and corrupt parties. We further demonstrate the necessity
+for secure metering in Section <A HREF="p336.htm#motivation">2</A>,
+where we present some additional applications. </P>
+
+<P>The principal property of the metering schemes which we introduce is
+that the server is able to present to an auditor a <I>short proof</I> for
+the number of services it has performed. This proof can be verified by
+an auditor. Suppose that a web server generated a proof for serving one
+million different clients. Then in our schemes this is a proof in its mathematical
+sense, i.e. its security is based on mathematical (cryptographic) principles,
+and a legitimate proof cannot be generated unless the server has actually
+served one million clients. The proof is short, i.e. the length of a proof
+for serving <I>n</I> clients is fixed (independent of <I>n</I>) or is at
+most logarithmic in <I>n</I>. This is essential since otherwise the task
+of sending and verifying such proofs would burden the auditor, since they
+would be of the same order of complexity as the original services. It is
+also important that the clients would not be overloaded by this auditing
+process. In the schemes we propose the modifications the clients should
+perform are minimal (e.g. a simple plug-in in the client's browser) and
+there is no need to change the communication pattern. Each client should
+obtain (only once) some personalized information from the auditor, which
+requires a single message to be sent from the auditor to the client. The
+schemes can also be extended to protect the user's privacy and not enable
+a mechanism for tracing her activities. We describe the different properties
+that the proofs should attain in Section <A HREF="p336.htm#def">3.2</A>.
+</P>
+
+<P>For the application of web site usage metering we also present a method
+to measure the <I>turnover</I> of clients. That is, to determine the rate
+with which <I>new</I> clients approach the site. This data is important
+for advertisers. Such measurement can also prevent sites from using a fixed
+group of (possibly corrupt) clients to prove high popularity. </P>
+
+<P>We are in the process of implementing a prototype of a secure web site
+usage metering system. See Section <A HREF="p336.htm#impl">4.7</A>
+for details. </P>
+
+<H2><A NAME="SECTION00020000000000000000"></A>2 Motivation</H2>
+
+<P><A NAME="motivation"></A>&nbsp; </P>
+
+<H3><A NAME="SECTION00021000000000000000"></A>2.1 Measuring the Popularity
+of Web Sites</H3>
+
+<P>Most of the revenues of web sites come from advertisement fees. Although
+there are different forecasts for the market share of online advertising,
+the estimations are that very large sums of money will be invested in this
+media (e.g. the spending in year 2000 on online ads is estimated by a Cowles/Simba
+forecast from June 1997 to be $2.57 billion, and by a February 1997 forecast
+of Jupiter Communications to be $ 5.7 billion). Like in every other advertising
+channel web advertisers must have a way to measure the effect of their
+ads, and this data affects the fees that are charged for displaying ads.
+Advertisers must therefore obtain accurate and impartial usage statistics
+about web sites and about page requests for pages which contain their ads.
+Web sites on the other hand have an obvious motivation to inflate their
+usage reports in order to demand more for displaying ads. </P>
+
+<P>In the pre-web world there were two main methods for measuring the popularity
+of media channels, sampling and auditing. Sampling, like the Nielsen rating
+system for TV programs, is survey based. It picks a representing group
+of users, checks their usage patterns and derives usage statistics about
+all the users. In traditional types of media like television this method
+makes sense since users have a relatively limited number of viewing options
+to choose from. These types of media use broadcast, which operates in a
+one-to-many communication model. The web operates in a many-to-many communication
+model and offers millions of web pages to visit. Therefore although sampling
+based metering services are offered for the Internet, they do not provide
+meaningful results for any but the most popular web sites. </P>
+
+<P>Auditing is performed by trusted third party agencies, like the Audit
+Bureau of Circulations (ABC) which audits print circulation. Although such
+information regarding web sites is often offered by the sites themselves,
+it should be taken with a grain of salt. The Coalition for Advertising
+Supported Information and Entertainment (CASIE) states in its guidelines
+for interactive media audience measurement [<A HREF="p336.htm#casie">2</A>]
+that ``Third party measurement is the foundation for advertiser confidence
+in information. It is the measurement practice of all other advertiser
+supported media''. There are a number of companies (like Nielsen/IPRO,
+NetCount, etc.) which offer third party based audit services for the Internet.
+They typically install some monitoring software at the server that operates
+the site. However, the reliability of such audit data depends on the site
+providing accurate data or not breaking into the monitoring module. Sites
+have a huge financial interest to exaggerate their popularity. The lesson
+learnt from software and pay-TV piracy 
+(e.g. [<A HREF="p336.htm#piracy">10</A>,<A HREF="p336.htm#bihamshamir">1</A>])
+is that such financial interests lead to corrupt behavior which overcomes
+any ``lightweight security'' mechanism. </P>
+
+<P>Today most web advertising is displayed on a very small number of top
+popularity web sites, like Yahoo! or CNN. It may be plausible that in spite
+of the great financial motivation such established sites will not provide
+inflated usage reports or break into audit modules that report their activities.
+In fact, Rick Boyce, vice president and director of advertising sales at
+<I>HotWired</I>, has been quoted as saying that ``No one has come up to
+me yet and said `We won't buy your site because you haven't had an independent
+audit' '' [<A HREF="p336.htm#murphy">13</A>]. However, while this
+may be true for the big sites, a large amount of advertising is displayed
+on smaller scale sites. It can also be argued that one of the main reasons
+that drive advertisers to use only the biggest sites is the lack of reliable
+audit data on smaller scale sites. The web is so attractive because one
+can set a site of interest to say, 10,000 users worldwide. This number
+may suffice to attract some advertisers, provided there are reliable usage
+statistics. </P>
+
+<P>Advertisers can learn about the exposure of their ads by counting ``click
+throughs'', i.e. the number of users who clicked on ads in order to visit
+the advertiser's site. Doubleclick reported in 1996 that 4% of the visitors
+who view an ad for the first time actually click on it. This ratio changes
+according to the content of the ad, and therefore gives very limited information
+to the advertiser. Another method that advertisers can use is to display
+the ads from their own server (even when they are displayed in other sites)
+and eliminate the risk of unreliable reports from sites. However, this
+method burdens the advertiser with sending its ads to all their viewers
+and prevents the distribution of this task. The original communication
+pattern is not preserved since a new channel (between the advertiser and
+the client) is used. The load on the advertiser's server is huge and is
+surely not acceptable for a one-time advertiser. This solution is non-scalable,
+introduces a single point of failure (the advertiser), and is also insecure
+against ``fake'' requests created by the site displaying the ads. </P>
+
+<P>Currently there is no single accepted standard or terminology for web
+measurement. Novak and Hoffman [<A HREF="p336.htm#novak">15</A>]
+argue that standardization is a crucial first step in the way for obtaining
+successful commercial use of the Internet. They also claim that interactivity
+metrics rather than the number of hits or the number of visitors should
+be used to meter a site's popularity. We define our schemes to count the
+number of <I>visits</I> that a web site receives. For the purpose of this
+exposition we do not need to define a visit precisely. For example, it
+can be set to be a click, a user, a session of more than some threshold
+of time or of page requests from a single user, or any similar definition.
+The main requirement is that the measurement be universal to all clients
+and can be consolidated (for instance, a detailed report of the path of
+pages that each client went through in its visit cannot be consolidated
+into a single result. The number of clients whose visit lasted more than
+15 minutes can be represented as a single number). The emphasis in this
+paper is in obtaining reliable usage statistics even when servers may try
+to act maliciously, and not in defining the type of statistics that are
+needed. </P>
+
+<P>Previous work (e.g. [<A HREF="p336.htm#pitkow">16</A>]) discussed
+the problems caused by caching and by proxy usage, which hide usage information
+from web servers. Possible solutions like temporal analysis, cache busting,
+and sampling were suggested. </P>
+
+<P>We are only aware of a single attempt to handle the problem of corrupt
+servers who present exaggerated usage statistics. Franklin and Malkhi [<A HREF="p336.htm#fm">8</A>]
+were the first to consider the secure metering problem in a rigorous theoretical
+approach. Yet their solutions only offer ``lightweight security'' and as
+such can be circumvented. Such solutions cannot be applied if there are
+strong commercial interests to falsify the metering results. </P>
+
+<P>This paper presents the motivation and the basic ideas of secure metering
+schemes. A companion paper [<A HREF="p336.htm#np">14</A>] gives more
+technical details about these schemes. </P>
+
+<H3><A NAME="SECTION00022000000000000000"></A>2.2 Network Accounting</H3>
+
+<P>The Internet is based on packet switching, i.e. there is no dedicated
+path between two parties which are communicating through the Internet,
+but rather each packet of information is routed separately. The Internet
+is essentially a network of networks and packets are typically routed through
+several different networks. These properties complicate pricing and accounting
+mechanisms for Internet usage, and indeed the most common pricing method
+is to charge a fixed price which is independent of the actual number of
+packets which are transferred. Pricing theory based analysis 
+[<A HREF="p336.htm#varian">9</A>,<A HREF="p336.htm#gupta">6</A>]
+indicates that pricing Internet services according to the actual usage
+(at least at times of network congestion) is superior in terms of network
+efficiency. Usage based pricing has a disadvantage of incurring accounting
+and billing costs. It is impractical to create detailed account reports
+(similar to telephone accounts) due to the huge number of packets. Some
+are suggesting to measure usage using sampling [<A HREF="p336.htm#sampling">4</A>]
+or only at times of congestion (however, even producing reports for a sample
+of say, 1/1000 of the packets creates inconceivably large reports). MacKie-Mason
+and Varian [<A HREF="p336.htm#varian">9</A>] also expect breakthroughs
+in the area of in-line distributed accounting that will lower the costs
+of Internet accounting. </P>
+
+<P>The problem of designing accounting mechanisms which will operate with
+the existing infrastructure of the Internet attracted some previous research
+[<A HREF="p336.htm#estrin">5</A>,<A HREF="p336.htm#fang">7</A>].
+Our schemes are innovative in providing an <I>efficient</I> and <I>secure</I>
+measurement of the number of packets that a network transfers for other
+networks, and producing a <I>short</I> proof for this count. The schemes
+are secure against tampering attempts by networks which try to inflate
+the count of the packets which they communicated. Considering the amount
+of money that is expected to be paid for Internet connectivity (e.g. 50
+million users who pay $20 per month equal $12 billion annually), it is
+apparent that secure accounting is essential. </P>
+
+<H3><A NAME="SECTION00023000000000000000"></A>2.3 Other Applications</H3>
+
+<P>A few other applications for the metering schemes can be </P>
+
+<UL>
+<LI><B>Targeted audience:</B> The schemes can be used to measure the interaction
+of a web site with a specific audience which is of special interest. For
+example they can be used by advertisers in a medical information web site
+to count the number of MDs (medical doctors) who visit the site. </LI>
+
+<LI><B>Royalties:</B> Servers might offer content (or links to content)
+which is the property of other parties. The metering schemes can be used
+to measure the number of requests for this content in order to decide on
+the sum that is paid to the content owners. </LI>
+
+<LI><B>Reversing access costs:</B> An application which was suggested in
+[<A HREF="p336.htm#fm">8</A>] is to enable users a free connection
+to sites whose owners are willing to pay for the access costs (as is the
+case with 800 telephone numbers). These connections will be measured and
+the sites will pay the users' ISPs accordingly. </LI>
+
+<LI><B>Coupons:</B> Imagine a newspaper (e.g. the Wall Street Journal)
+that distributes coupons to its clients, which give them access to an online
+service (e.g. for obtaining online stock quotes). Then the metering schemes
+can be used by the online service to provide verifiable measurements of
+the exact number of users who have used these coupons. </LI>
+</UL>
+
+<H2><A NAME="SECTION00030000000000000000"></A>3 Scenario</H2>
+
+<P>In this section we describe the general setting in which the metering
+schemes operate and give a high level description of their operation. We
+also specify the requirements which the schemes should satisfy. In order
+to be more specific we concentrate from now on on schemes for metering
+visits to web sites. </P>
+
+<H3><A NAME="SECTION00031000000000000000"></A>3.1 Setting</H3>
+
+<P>The setting and the general operation of the metering schemes are depicted
+in figure <A HREF="p336.htm#setting">1</A>. There are servers (denoted
+<I>S</I>) and clients (denoted <I>C</I>), which interact, and the metering
+scheme should measure this interaction (figure 1.a). We introduce a new
+party, the audit agency <I>A</I> which is responsible for providing measurement
+reports about all servers. The audit agency is trusted by all parties for
+the task of providing accurate reports (but not for other tasks, e.g. servers
+do not want to provide a full list of all their clients to <I>A</I>). The
+metering system measures the number of visits that each server receives
+in a certain period of time (e.g. a day). Alternatively, the system can
+be set so that each server will provide a proof to the audit agency as
+soon as it receives <B>k</B> new visits (where <B>k</B> is a system parameter).
+We do not define what a visit is, and it can be any unit which is of of
+interest (e.g. a ``hit'', a ``click'', a page visited by a user, a session
+of a single user, a session of more than some threshold of time or hits,
+etc.). </P>
+
+<P>The operation of the system is divided into the following stages: </P>
+
+<UL>
+<LI><B>Initialization:</B> (figure 1.b) This stage occurs once at the beginning
+of the life time of the system, or every some long period of time (e.g.
+monthly or yearly). The audit agency chooses a random key and securely
+sends to each server and client some data which depends on this key and
+on the identity of the receiving party. This communication is one-way,
+from the audit agency. (In some applications, like web site usage metering,
+it is preferable that clients perform some initial registration process
+before receiving the initialization data. This should prevent fraudulent
+acquiring of initialization data for multiple clients by the same body).
+</LI>
+
+<LI><B>Beginning of metered time frame:</B> (figure 1.c) <I>A</I> sends
+to each server <I>S</I> a different <I>challenge</I>. </LI>
+
+<LI><B>Interaction with a client:</B> (figure 1.d,e) <I>S</I> sends to
+the client <I>C</I> a challenge which depends on the challenge that the
+server received from the audit agency. <I>C</I> replies with an answer
+which is a function of the challenge and of the information that <I>C</I>
+received in the initialization stage. </LI>
+
+<LI><B>End of time frame:</B> (figure 1.f) <I>S</I> performs a computation
+which depends on the answers it received from clients, and sends to the
+audit agency a <I>proof</I> for the number of clients it served. The audit
+agency might query <I>S</I>\ a little to verify the correctness of the
+proof. </LI>
+</UL>
+
+<P>This is the most general form of a metering scheme. In order to save
+communication rounds it is preferable (and can be achieved with the schemes
+we describe) that no explicit challenges are sent, but rather the challenges
+can be implicitly computed by the servers and clients. </P>
+
+<P>Note that the only communication between the audit agency and the clients
+is a single one-way initialization message in the initialization stage.
+The changes in the operation of the client are minimal. They should ideally
+be coded in the web browser but can also be operated from a plug-in or
+a helper application (see Section <A HREF="p336.htm#impl">4.7</A>).
+</P>
+
+<P><A NAME="117"></A>&nbsp;<IMG SRC="img1.gif" ALT="" HEIGHT=471 WIDTH=622 ALIGN=BOTTOM>
+<BR>
+<B>Figure 1:</B> <A NAME="setting"></A>&nbsp; The setting of the metering
+scheme.<BR>
+</P>
+
+<H3><A NAME="SECTION00032000000000000000"></A>3.2 Requirements</H3>
+
+<P><A NAME="def"></A>&nbsp; A metering scheme should be designed to satisfy
+the following requirements: </P>
+
+<UL>
+<LI><B>Security:</B> Servers should not be able to inflate the count of
+their visits. The servers should also be protected from subversive clients
+who are not willing to help count their visits. </LI>
+
+<LI><B>Efficiency:</B> Communication, computation and memory requirements
+should be minimized. In particular, it is essential to preserve the communication
+pattern of the original protocol, i.e. not to require parties to regularly
+communicate in channels which have not been used in the original protocol
+(like between clients and the audit agency). It is also important that
+the overhead of the audit agency be much smaller than the total number
+of interactions in the system. The operation of the client should be very
+efficient in order for the scheme to be acceptable. In addition, if clients
+are able to calculate their answers very fast then servers can require
+clients to send them their answers before they receive service. This will
+prevent clients from receiving service and then refraining from sending
+the information which is necessary in order to count their visit. </LI>
+
+<LI><B>Accuracy:</B> The output of the metering scheme should be as close
+as possible to the actual number of visits. </LI>
+
+<LI><B>Privacy:</B> The metering scheme should not degrade the privacy
+of clients and servers (e.g. by supplying individual usage reports). This
+is also a guideline of the CASIE [<A HREF="p336.htm#casie">2</A>].
+</LI>
+
+<LI><B>Turnover:</B> It is important to measure the turnover of clients,
+i.e. to check the rate with which a server receives new clients. This measurement
+provides important data for advertisers and also prevents the operation
+of groups of clients-for-pay who visit servers on a daily basis in order
+to show high popularity. </LI>
+</UL>
+
+<H2><A NAME="SECTION00040000000000000000"></A>4 The Metering Schemes</H2>
+
+<P>We found several directions for designing secure and efficient metering
+schemes, based on hash trees, pricing-via-processing, secure function evaluation
+and micropayments. They are described in the detailed technical manuscript
+[<A HREF="p336.htm#np">14</A>]. The metering schemes with the best
+properties are based on secret sharing. We describe these schemes in this
+section, but refer the reader to [<A HREF="p336.htm#np">14</A>] for
+more technical details. </P>
+
+<H3><A NAME="SECTION00041000000000000000"></A>4.1 Secret Sharing</H3>
+
+<P>A <I>k</I>-out-of-<I> n</I> secret sharing scheme enables a secret to
+be divided into <I>n</I> shares such that no <I>k-1</I> shares reveal any
+information about the secret, but any <I>k</I> shares enable to recover
+it. We start our construction from the secret sharing scheme of Shamir
+[<A HREF="p336.htm#shamir">17</A>]. In this scheme the secret can
+be any value <I>V</I> in a finite field <I>F</I> (e.g. <I>V</I> is an integer
+between <I>0</I> and <I>p-1</I> where <I>p</I> is prime). The party that
+wishes to perform the secret sharing chooses a random polynomial <I>Q(x)</I>
+of degree <I>k-1</I>, subject to the condition <I>Q(0)=V</I>. The <I>n</I>
+shares are the values <I>Q(1),Q(2),...,Q(n)</I>. Given any <I>k</I> of
+them it is possible to perform a Lagrange interpolation and obtain <I>Q</I>
+and <I>V=Q(0)</I>. It is easy to verify that no <I>k-1</I> shares define
+<I>Q(0)</I>. </P>
+
+<P>The rational behind establishing metering schemes on secret sharing
+is to give each client a share, which it will send to a server when visiting
+it. Then after serving <I>k</I> clients the server recovers the secret,
+which is the proof for serving <I>k</I> clients. However, this straightforward
+implementation has only a single secret and cannot be used by many servers
+or for several measurements. There is also the problem of protecting the
+server from malicious clients who send incorrect shares which cause an
+incorrect ``secret'' to be computed. Our schemes solve these problems and
+others. </P>
+
+<H3><A NAME="SECTION00042000000000000000"></A>4.2 The Basic Scheme</H3>
+
+<P>The basic scheme has three parameters, <I>k, d</I>, and <I>p</I>. It
+enables servers to prove that they received <I>k</I> visits, where <I>k</I>
+is a predefined parameter (we show how to adapt the system to measure different
+numbers of visits in Section <A HREF="p336.htm#adaptability">4.5</A>).
+The parameter <I>d</I> defines the number of measurements for which the
+scheme can be used, and <I>p</I> is the probability with which a server
+can generate a proof without serving <I>k</I> clients. Following is a description
+of the scheme set to enable servers to prove that they served <B>k</B>
+visits during a day. </P>
+
+<P><B>Initialization:</B> The audit agency generates a random polynomial
+<I>Q(x,y)</I> over the field <I>Zp</I>, of degree <I>k-1</I> in <I>x</I>
+and <I>d-1</I> in <I>y</I>. Each client <I>C</I> receives the polynomial
+<I>Qc(y)=P(C,y)</I> which is constructed from <I>P</I> by substituting
+<I>C</I> for <I>x</I>, and is of degree <I>d-1</I> in <I>y</I>. </P>
+
+<P><B>Operation:</B> A client <I>C</I> that visits server <I>S</I> at date
+<I>t</I> should send it the value <I>Qc(St) =P(C,St)</I> (assuming for
+simplicity that <I>St</I>, the concatenation of <I>S</I> and <I>t</I>,
+is in <I>Zp</I>). </P>
+
+<P><B>Proof generation:</B> Consider the polynomial (in <I>x</I>) <I>P(x,St)</I>.
+After serving <I>k</I> clients in day <I>t</I>, <I>S</I> can interpolate
+this polynomial and calculate <I>P(0,St)</I>. This is the proof for serving
+<I>k</I> clients in day <I>t</I>. The audit agency can verify this value
+by evaluating the polynomial <I>P</I> at this location (this can be done
+efficiently since every summand in which <I>x</I> is of degree higher than
+0 equals 0). </P>
+
+<P>The scheme is depicted is figure <A HREF="p336.htm#poly">2</A>.
+The security of the system is analyzed in the full paper ([<A HREF="p336.htm#np">14</A>]).
+We emphasize that if the scheme is used for at most <I>d</I> measurements,
+a server who is not being helped by other servers or clients has a probability
+of at most <I>1/p</I> in generating a correct proof without serving <I>k</I>
+visits. The scheme is also secure against a coalition of <I>b</I> corrupt
+servers for at least <I>d/b</I> measurements by each of them. </P>
+
+<P><A NAME="275"></A>&nbsp;<IMG SRC="img2.gif" ALT="" HEIGHT=494 WIDTH=425 ALIGN=BOTTOM>
+<BR>
+<B>Figure 2:</B> <A NAME="poly"></A>&nbsp; The basic secret sharing based
+metering scheme.<BR>
+</P>
+
+<H3><A NAME="SECTION00043000000000000000"></A>4.3 Advanced Features</H3>
+
+<P>It is possible to add further features to the basic scheme, while conserving
+or improving its efficiency. The details of the implementation of these
+features are described in [<A HREF="p336.htm#np">14</A>]. </P>
+
+<P><B>Robustness:</B> The basic scheme is insecure against clients who
+send incorrect values instead of their shares, which cause the server to
+compute an inaccurate polynomial and a false proof. The error correcting
+properties of Reed-Solomon codes can be used to reconstruct the secret
+even in the presence of several corrupt shares [<A HREF="p336.htm#sarwate">11</A>],
+but this does not help if there are too many corrupt shares. </P>
+
+<P>We can enable the server to verify the correctness of the information
+it receives from clients. To achieve this property the servers and clients
+are only required to evaluate a single additional polynomial (of small
+degree). </P>
+
+<P><B>Increased efficiency and lifetime (using classes or polling):</B>
+A client who sends a share to a server has to evaluate a polynomial of
+degree <I>d-1</I>, a computation which requires <I>d</I> multiplications
+using Horner's rule. The basic operations can be very efficient since they
+are performed in the field <I>Zp</I> where <I>1/p</I> is the error probability
+and can be set to be 32 bits long (they should not be confused with the
+operations required for public key cryptography, since the latter are over
+a large field (e.g. field elements are 768 bits long)). The server should
+perform a polynomial interpolation which requires <IMG SRC="img3.gif" ALT="" HEIGHT=32 WIDTH=80 ALIGN=CENTER>
+multiplications. The amortized cost of a visit is therefore <IMG SRC="img4.gif" ALT="" HEIGHT=32 WIDTH=68 ALIGN=CENTER>
+modular multiplications of say, 32 bit numbers. This cost is relatively
+small, but for large values of <I>k</I> it might be significant. </P>
+
+<P>It is possible to decrease the the overhead of the scheme using the
+following idea: Assume that clients are divided at random into <I>n</I>
+classes, then instead of proving a total of <I>k</I> visits the server
+can be asked to prove <I>k/n</I> visits from a random class. An application
+of this idea reduces the overhead and increases the lifetime of the scheme
+by a factor of about <B>n</B>. </P>
+
+<P><B>A scheme for unlimited use:</B> The number of measurements in which
+the scheme could be used is of the same order as <I>d</I>, the degree of
+<I>y</I> in <I>P</I>, times the number of classes <I>n</I>. This number
+can be large enough for many applications (e.g. when <I>d=100</I> and <I>n=100</I>).
+However, as was suggested to us by Omer Reingold, it is also possible to
+construct a metering scheme which can operate for a virtually unlimited
+number of time periods. The security of the scheme is based on the Diffie-Hellman
+assumption [<A HREF="p336.htm#dh">3</A>]. It requires the parties
+to perform in each visit an exponentiation (over a large finite field,
+e.g. of length 768 bits). </P>
+
+<P><B>Anonymity:</B> Many clients wish to remain anonymous. An even stronger
+property is <I>unlinkability</I> which prevents identifying different visits
+as originating from the same clients. It might seem that secret based metering
+schemes cannot obtain this property since a client <I>C</I>\ always sends
+a share which is a value of the polynomial <I>P</I> at a point whose <I>x</I>
+coordinate is <I>C</I>. However, it is possible to change the scheme and
+obtain unlinkability of visits without considerably affecting the complexity.
+</P>
+
+<H3><A NAME="SECTION00044000000000000000"></A>4.4 An Example</H3>
+
+<P>Assume that a metering scheme is set to measure whether sites receive
+<I>k</I>=100,000 visits. The scheme is used for 100 measurements (e.g 100
+days), and should be secure against coalitions of up to 10 sites. </P>
+
+<P>A straightforward implementation of the basic scheme uses a polynomial
+<I>P(x,y)</I> in which <I>x</I> is of degree <I>k=</I>100,000 and <I>y</I>
+is of degree 1000 (the number of days times the maximum size of a corrupt
+coalition). If we require the probability with which the scheme can be
+broken to be one to four billion the polynomial
+can be defined over a field whose elements are 32 bits long. Each client
+receives a polynomial of degree 1000 whose storage requires 4Kbytes and
+whose evaluation requires 1000 modular word multiplications. After 100,000
+visits a server should perform an interpolation of a polynomial of degree
+100,000 which requires about 275 word multiplications per visit. The proof
+that the server generates can be verified by the audit authority by evaluating
+a polynomial of degree 1000. </P>
+
+<P>If the scheme is implemented using 100 classes then it is possible to
+use a polynomial in which <I>x</I> is of degree 1000 and <I>y</I> is of
+degree 10 (or just a little more). The overhead of the client is negligible.
+The interpolation that the server performs requires about a single multiplications
+per visit. </P>
+
+<P>Compare these figures to public key operations, for example when each
+client performs an RSA signature with a 1024 bits modulus. This operation
+requires about <IMG SRC="img6.gif" ALT="" HEIGHT=15 WIDTH=40 ALIGN=BOTTOM>32000
+multiplications of 32 bit words and modular reductions modulo a 1024 bit
+number. </P>
+
+<H3><A NAME="SECTION00045000000000000000"></A>4.5 Adaptability</H3>
+
+<P><A NAME="adaptability"></A>&nbsp; The schemes that we describe only
+check whether a server had <I>k</I> visits, where <I>k</I> is a predefined
+parameter. A more fine grained measurement can be achieved by using a smaller
+value of <I>k</I> (e.g. <I>k=1000</I>). In this case the server is required
+to provide a different proof for every 1000 visits by presenting different
+values <I>P(0,Hi)</I> of the polynomial at different locations (<I> Hi</I>
+is a random challenge picked by the audit agency and the location <I>(0,Hi)</I>
+is used for proving the 1000 visits between visit <I>1000(i-1)+1</I> and
+visit <I>1000i</I>). This variant requires the server to send to its clients
+the value <I>Hi</I> which is relevant at the time of their visits. </P>
+
+<P>Secret sharing based schemes have the property that a server which received
+almost <I>k</I> visits cannot generate any partial proof and is in the
+same position as a server which received no visits. However, a server which
+received only <I>k'&lt;k</I> visits, where <I>k-k'</I> is small, can ask
+the audit agency to send it <I>k-k'</I> shares. It can then recover the
+secret and prove <I>k'</I> visits. </P>
+
+<H3><A NAME="SECTION00046000000000000000"></A>4.6 Checking Turnover</H3>
+
+<P>An important data for advertisers is the rate with which the visitors
+to a site change (whether the site has loyal clients or whether most of
+the clients do not return). This measurement is also important against
+organized groups of clients which might offer their service as visitors-for-pay
+in order to increase the popularity count of sites. A site which bases
+its popularity on such visitors will not be able to show a nice turnover
+of clients. </P>
+
+<P>Following is a coarse description of a system for checking clients turnover.
+Suppose a server is proving <I>k</I> visits per day. Then the audit agency
+can use a one-way hash function <I>h</I> with a range of say <I>10k</I>.
+The server is given a challenge <I>t</I> between 1 and <I>10k</I> and is
+required to present, as soon as possible, a share of a client (from a later
+time period) which is mapped by <I>h</I> to <I>t</I>. If the clients of
+a server constantly change then this share is expected to be found after
+about 10 time periods. If the server has a low turnover than it would need
+considerably more time periods to present a suitable share. </P>
+
+<H3><A NAME="SECTION00047000000000000000"></A>4.7 Implementation</H3>
+
+<P><A NAME="impl"></A>&nbsp; We are currently implementing, with Reuben
+Sumner, a prototype of a web site usage metering system. </P>
+
+<P>The server-end of the system can be coded rather simply as a CGI script.
+There can be many approaches for implementing the client-end of the system:
+</P>
+
+<UL>
+<LI>A simple <I>proxy</I> on the client's machine can perform the handling
+of metering related messages for the client. </LI>
+
+<LI>A simple <I>helper application</I> can be invoked by the client browser
+whenever it encounters a web page which requires metering data. The helper
+application will calculate the required message to be sent to the server.
+</LI>
+
+<LI>A <I>plug-in</I> can be used instead of a helper application, and can
+have better interoperability with the browser. </LI>
+
+<LI>A <I>Java applet</I> can be used to perform the calculations at the
+client side. It can be downloaded at the first time the client approaches
+a server which requires metering data. It must be certified by a trusted
+party (e.g. the audit agency) and should have permission to access the
+sensitive data (the coefficients of the polynomial) at the client. </LI>
+
+<LI>It is possible to change the code of the <I>browser</I> to perform
+the metering operations. This is possible in browsers with accessible source
+code, e.g. as is promised for Netscape 5.0. </LI>
+</UL>
+
+<P>After the client has sent the required metering information to the server
+it might try to approach different pages on the same site, or try to receive
+the same page at a later time during the same day. For these operations
+it might be required to send again the same metering data. A simple solution
+is to store the metering data in a <I>cookie</I>. The server will automatically
+receive the cookie, check its validity, and only if it is not updated would
+demand new information from the client (we assume, and it is easy to ensure
+this at the client side, that the client machine can verify that it is
+not being ``milked'' by the server for information which the server should
+not receive). </P>
+
+<P>There are a few design problems which should be resolved at the implementation
+stage: (a) Should the user be required to actively acknowledge each transmission
+of metering data? (b) It should be ensured that servers cannot ``milk''
+from clients metering data that they are not entitled to receive. (c) It
+should be ensured that a server cannot ask for metering data for a URL
+different than its own (this can be verified rather simply by receiving
+from the browser the URL that asked for the data). </P>
+
+<P>Although we have not yet invested much effort in optimizing the code
+that performs the mathematical calculations, it is obvious that it has
+very good performance (much faster than public key cryptographic operations).
+</P>
+
+<H2><A NAME="SECTION00050000000000000000"></A>5 Conclusions and Open Problems</H2>
+
+<P>We have presented the notion of secure and efficient metering of the
+amount of service requested from servers by clients, and demonstrated its
+web applications. Such metering schemes can be realized without substantial
+changes to the operation of clients and servers (though they do require
+a change in the clients software and a registration process) and to their
+communication patterns. This paper described a realization of a metering
+scheme, and we are currently working on implementing a prototype. </P>
+
+<P>There are two main technical properties that can be improved in our
+construction. The scheme can be operated for only a limited (but large)
+number of time periods. It is interesting to design an efficient scheme
+(using only private key cryptographic operations) which can be used for
+an unlimited number of measurements. It is also preferable to design schemes
+which measure any granularity of visits, rather than measure a predefined
+quota of <I>k</I> visits. </P>
+
+<P>A related and interesting problem is the problem of <I>licensing</I>:
+suppose that some software or content is bought by a client under a license
+which limits the maximum allowed usage (e.g. no more than two copies can
+be used concurrently). Design a cryptographic scheme which enforces this
+policy. </P>
+
+<P><A NAME="SECTIONREF"></A></P>
+
+<H2>References</H2>
+
+<DL COMPACT>
+<DT><A NAME="bihamshamir"></A><B>1</B></DT>
+
+<DD> E. Biham and A. Shamir, Differential Fault Analysis of Secret Key
+Cryptosystems, <I>Crypto '97</I>, Springer-Verlag LNCS 1294, 513-525. </DD>
+
+<DT><A NAME="casie"></A><B>2</B></DT>
+
+<DD> Coalition for Advertising Supported Information and Entertainment,
+<I>CASIE Guiding Principles of Interactive Media Audience Measurement</I>,
+April 1997. Available at <A NAME="tex2html3"></A><TT><A HREF="http://www.commercepark.com/AAAA/casie/gp/guiding_principles.html" NAME="tex2html3">http://www.commercepark.com/AAAA/casie/gp/guiding_principles.html</A></TT>
+</DD>
+
+<DT><A NAME="dh"></A><B>3</B></DT>
+
+<DD> Diffie W. and Hellman M. E., New Directions in Cryptography, <I>IEEE
+Trans. on Information Theory</I>, Nov. 1976, 644-654. </DD>
+
+<DT><A NAME="sampling"></A><B>4</B></DT>
+
+<DD> Claffy K, Braun H.-W. and Polyzos G., Application of Sampling Methodoligies
+to Wide-area Network Traffic Characterization, TR CS93-275, UCSD, 1993.
+</DD>
+
+<DT><A NAME="estrin"></A><B>5</B></DT>
+
+<DD> Estrin D. and Zhang L., Design Considerations for Usage Accounting
+and Feedback in Internetworks, <I>ACM Computer Communications Review</I>,
+1990, 20 (5), 56-66. </DD>
+
+<DT><A NAME="gupta"></A><B>6</B></DT>
+
+<DD> Gupta A., Stahl D. O. and Whinston A. B., Pricing of Services on the
+Internet, 1994. In <I>IMPACT: How ICC Research Affects Public Policy and
+Business Markets</I>, Phillips F. and Cooper W. (Eds.). Greenwood Pub,
+forthcoming. </DD>
+
+<DT><A NAME="fang"></A><B>7</B></DT>
+
+<DD> Fang W., Building an Accounting Infrastructure for the Internet, <I>IEEE
+Global Internet 1996</I>. Available at <A NAME="tex2html4"></A><TT><A HREF="http://www.cs.princeton.edu/~wfang/Research/revised.ps" NAME="tex2html4">http://www.cs.princeton.edu/~wfang/Research/revised.ps</A></TT>
+</DD>
+
+<DT><A NAME="fm"></A><B>8</B></DT>
+
+<DD> Franklin M. K. and Malkhi D., Auditable Metering with Lightweight
+Security, <I>Financial Cryptography '97</I>, 1997. </DD>
+
+<DT><A NAME="varian"></A><B>9</B></DT>
+
+<DD> MacKie-Mason J. K. and Varian H. R., Pricing the Internet, In Kahin
+B. and Keller J. (Eds.) <I>Public access to the internet</I>, Prentice-Hall,
+1994. </DD>
+
+<DT><A NAME="piracy"></A><B>10</B></DT>
+
+<DD> McCormac J., <I>European Scrambling Systems 5</I>, Waterford University
+Press, Waterford, Ireland, 1996. </DD>
+
+<DT><A NAME="sarwate"></A><B>11</B></DT>
+
+<DD> McEliece R. J. and Sarwate D. V., On Sharing Secrets and Reed-Solomon
+Codes, <I>Comm. ACM</I>, Vol. 24, No. 9, (September 1981), 583-584. </DD>
+
+<DT><A NAME="lesk"></A><B>12</B></DT>
+
+<DD> Lesk M., Projections for Making Money on the Web, <I>Harvard Infrastructure
+Conference</I>, Jan. 23-25 1997. Available at <A NAME="tex2html5"></A><TT><A HREF="http://community.bellcore.com/lesk/iih/iih.html" NAME="tex2html5">http://community.bellcore.com/lesk/iih/iih.html</A></TT>
+</DD>
+
+<DT><A NAME="murphy"></A><B>13</B></DT>
+
+<DD> Murphy I. P., On-line Ads Effective? Who Knows for Sure?, <I>Marketing
+News</I>, 30 (20), Sept. 23 1996. 1-38. </DD>
+
+<DT><A NAME="np"></A><B>14</B></DT>
+
+<DD> Naor M. and Pinkas B., Secure and Efficient Metering, to appear
+in <I>Eurocrypt '98</I>, 1998.</DD>
+
+
+<DT><A NAME="novak"></A><B>15</B></DT>
+
+<DD> Novak T. P. and Hoffman D. L., New Metrics for New Media: Toward the
+Development of Web Measurement Standards, manuscript, 1996. </DD>
+
+<DT><A NAME="pitkow"></A><B>16</B></DT>
+
+<DD> Pitkow J., In Search of Reliable Usage Statistics on the WWW, <I>Proc.
+of the 6th International WWW Conf.</I>, 1997. Available at <A NAME="tex2html5"></A><TT><A HREF="http://www6.nttlabs.com/HyperNews/get/PAPER126.html" NAME="tex2html5">http://www6.nttlabs.com/HyperNews/get/PAPER126.html</A></TT>
+</DD>
+
+<DT><A NAME="shamir"></A><B>17</B></DT>
+
+<DD> Shamir A., How to Share a Secret, <I>Comm. ACM</I> Vol. 22, No. 11
+(Nov. 1979), 612-613. </DD>
+</DL>
+
+<P><BR>
+
+<HR></P>
+
+<P><A NAME="SECTIONREF"></A></P>
+
+<H2>Links</H2>
+
+<DL COMPACT>
+<DT><B>1</B></DT>
+
+<DD> Coalition for Advertising Supported Information and Entertainment,
+<I>CASIE Guiding Principles of Interactive Media Audience Measurement</I>,
+April 1997. Available at <A NAME="tex2html3"></A><TT><A HREF="http://www.commercepark.com/AAAA/casie/gp/guiding_principles.html" NAME="tex2html3">http://www.commercepark.com/AAAA/casie/gp/guiding_principles.html</A></TT>
+</DD>
+
+<DT><B>2</B></DT>
+
+<DD> Fang W., Building an Accounting Infrastructure for the Internet. Available
+at <A NAME="tex2html4"></A><TT><A HREF="http://www.cs.princeton.edu/~wfang/Research/revised.ps" NAME="tex2html4">http://www.cs.princeton.edu/~wfang/Research/revised.ps</A></TT>
+</DD>
+
+<DT><B>3</B></DT>
+
+<DD> Lesk M., Projections for Making Money on the Web. Available at <A NAME="tex2html5"></A><TT><A HREF="http://community.bellcore.com/lesk/iih/iih.html" NAME="tex2html5">http://community.bellcore.com/lesk/iih/iih.html</A></TT>
+</DD>
+
+<DT><B>4</B></DT>
+
+<DD> Pitkow J., In Search of Reliable Usage Statistics on the WWW, Available
+at <A NAME="tex2html5"></A><TT><A HREF="http://www6.nttlabs.com/HyperNews/get/PAPER126.html" NAME="tex2html5">http://www6.nttlabs.com/HyperNews/get/PAPER126.html</A></TT>
+</DD>
+</DL>
+
+<BR>
+<HR SIZE="2" NOSHADE>
+
+
+<H1>Vitae </H1>
+<P ALIGN="LEFT">
+
+</P>
+
+<A HREF="naor.jpg"><IMG SRC="naor.jpg"
+ ALT="" HEIGHT=158 WIDTH=120></A><BR CLEAR="LEFT">
+<A HREF="http://www.wisdom.weizmann.ac.il/~naor">
+Moni Naor</A>
+
+<H4 ALIGN="LEFT">Moni Naor</H4>
+Moni Naor obtained his B.A (Summa Cum Laude) from the Technion - Israel
+Institute of Technology in 1985 and his PhD from University of California
+at Berkeley in 1989, both in Computer Science. After spending 4 years
+at the IBM Almaden Research Center he joined the department of Applied Math
+and Computer Science of the Weizmann Institute of Science, Rehovot, Israel, 
+where he is currently an Associate Professor.  His research interests
+include Cryptography and Computer Security, Randomness in Computation and 
+Concrete Complexity. He is on the editorial board of the Journal of
+Cryptology and Siam Journal on discrete Math and  has recently served 
+on the program committees of Crypto'97, Computational Complexity'98 and 
+Financial Crypto'98.
+His research was 
+supported by a grant from the Israel Science Foundation 
+administered by the Israeli Academy of Sciences.
+
+<BR>
+
+<HR ALIGN="CENTER">
+
+
+<A HREF="bennyp.jpg"><IMG SRC="bennyp.jpg"
+ ALT="" HEIGHT=142 WIDTH=120></A>
+ <BR CLEAR="LEFT">
+
+
+<A HREF="http://www.wisdom.weizmann.ac.il/~bennyp">
+ Benny Pinkas</A>
+ 
+<H4 ALIGN="LEFT">Benny Pinkas</H4>
+Benny Pinkas is a Computer Science doctoral student at the Department of 
+Applied Math and Computer Science of the Weizmann Institute of 
+Science, Rehovot, 
+Israel. He received his B.A. (Summa Cum Laude) and his
+M.Sc., both in Computer Science, from the Technion - Israel 
+Institute of Technology, in 1988 and 1991, respectively. During 1991-1996 
+he served in the Israel Defense Forces, where he worked in computer 
+science and communications research and development. His main research 
+interests are Computer Security and Cryptography, and in particular communication 
+efficient security protocols. His research is supported by an Eshkol 
+Fellowship from the Israeli Ministry of Science.
+</BODY>
+</HTML>

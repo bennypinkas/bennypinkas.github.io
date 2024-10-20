@@ -1,0 +1,932 @@
+<html><head><!--Converted with LaTeX2HTML 97.1 (release) (July 13th, 1997)
+ by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippman, Marek Rouchal, Martin Wilck and others -->
+  <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+  
+  <title>On the Security of Pay-Per-Click and Other Web Advertising Schemes</title><meta name="description" content="On the Security of Pay-Per-Click and Other Web Advertising Schemes ">
+  <meta name="keywords" content="final">
+  <meta name="resource-type" content="document">
+  <meta name="distribution" content="global">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <link rel="next" href="http://www8.org/w8-papers/1a-electronic-market/security/node1.html"></head>
+
+<body bgcolor="#ffffff">
+
+<p><a name="TopOfPage"></a></p>
+
+<h1><center><font face="Times New Roman">On the Security of Pay-Per-Click
+<br>
+and Other Web Advertising Schemes</font></center></h1>
+
+
+
+<p></p><center><table border="0" cellspacing="2" cellpadding="0">
+  <tbody><tr>
+    <td align="center" valign="bottom">
+    <strong>Vinod Anupam</strong></td> 
+    <td align="center" valign="bottom">
+    <strong>Alain Mayer</strong></td> 
+    <td></td>
+    <td align="center" valign="bottom">
+    <strong>Kobbi Nissim</strong></td> 
+    <td align="center" valign="bottom">
+    <strong>Benny Pinkas</strong><a name="tex2html1"></a><a href="http://www8.org/w8-papers/1a-electronic-market/security/footnode.html#37"><sup><img src="v17_files/foot_motif.gif" align="bottom" border="1" alt="[*]" naturalsizeflag="3" width="15" height="15"></sup></a></td> 
+    <td></td>
+    <td align="center" valign="bottom">
+    <strong>Michael K. Reiter</strong></td> 
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+    <font size="-1">Bell Laboratories, Lucent Technologies</font></td>
+     
+    <td></td>
+    <td colspan="2" align="center">
+    <font size="-1">Department of Computer Science and Applied Math</font></td>
+     
+    <td></td>
+    <td align="center">
+    <font size="-1">Bell Laboratories, Lucent Technologies</font></td> 
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+    <font size="-1">Murray Hill, NJ, USA</font></td>
+     
+    <td></td>
+    <td colspan="2" align="center">
+    <font size="-1">Weizmann Institute of Science, Rehovot, Israel</font></td>
+     
+    <td></td>
+    <td align="center">
+    <font size="-1">Murray Hill, NJ, USA</font></td> 
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+    <font size="-1">{anupam, alain}@research.bell-labs.com</font></td>
+     
+    <td></td>
+    <td colspan="2" align="center">
+    <font size="-1">{kobbi, bennyp}@wisdom.weizmann.ac.il</font></td>
+     
+    <td></td>
+    <td align="center">
+    <font size="-1">reiter@research.bell-labs.com</font></td> 
+  </tr>
+</tbody></table><!--SELECTION--><!--/SELECTION--></center><p></p>
+
+<h3 class="ABSTRACT"> </h3>
+
+<h3 class="ABSTRACT"><font face="Times New Roman">Abstract:</font></h3>
+
+<p class="ABSTRACT"><font face="Times New Roman">We present a
+hit inflation attack on pay-per-click Web advertising schemes.
+Our attack is virtually impossible for the program provider to
+detect conclusively, regardless of whether the provider is a third-party
+"ad network" or the target of the click itself. If practiced
+widely, this attack could accelerate a move away from pay-per-click
+programs and toward programs in which referrers are paid only
+if the referred user subsequently makes a purchase (pay-per-sale)
+or engages in other substantial activity at the target site (pay-per-lead).
+We also briefly discuss the lack of auditability inherent in these
+schemes.</font></p>
+
+<p><b><font face="Times New Roman">Keywords:</font></b><font face="Times New Roman">
+Electronic Commerce, Secure Systems, On-line Advertising, Pay-Per-Click.</font></p>
+
+<h2><a name="SECTION00010000000000000000"></a><font face="Times New Roman">Introduction</font><a name="sec:intro"></a><font face="Times New Roman"> </font></h2>
+
+<p><font face="Times New Roman">Click-through payment programs
+("pay-per-click") have become a popular branch of Internet
+advertising. In the simplest case, the webmaster of the site running
+the program, here called the <em>target</em> site, agrees to pay
+each <em>referrer</em> site for each user who clicks through the
+referrer to the target. That is, if a user views a Web page served
+from the referrer site, and then clicks on a hypertext link (e.g.,
+banner ad, logo) in that page to the target site, then the target
+site owes the referrer site some predetermined amount of money.
+The target site runs a click-through payment program in order
+to motivate the referrer to prominently display ads for the target
+site on its Web pages. Often, the target site does not administer
+such a program itself but rather employs a third-party ad network
+to administer the click-through program on its behalf.</font><a name="tex2html2"></a><font face="Times New Roman"><a href="http://www8.org/w8-papers/1a-electronic-market/security/footnode.html#311"><sup><img src="v17_files/foot_motif.gif" align="bottom" border="1" alt="[*]" naturalsizeflag="3" width="15" height="15"></sup></a></font></p>
+
+<p><font face="Times New Roman">Click-through counts are also
+used by the Internet advertising industry at large to determine
+the effectiveness of a banner ad (its location, design, etc.).
+Often the click-through rate (i.e., the percentage of users who
+clicked on the banner after seeing it) is used as a metric to
+determine the cost of placing the banner ad on a particular Web
+page.</font><a name="tex2html3"></a><font face="Times New Roman"><a href="http://www8.org/w8-papers/1a-electronic-market/security/footnode.html#312"><sup><img src="v17_files/foot_motif.gif" align="bottom" border="1" alt="[*]" naturalsizeflag="3" width="15" height="15"></sup></a></font></p>
+
+<p><font face="Times New Roman">As has been recognized in the
+click-through payment industry, click-through payment programs
+are susceptible to <em>hit inflation</em>, where a referrer artificially
+inflates the click-through count for which it should be paid.
+Consequently, most ad networks include clauses in their service
+agreement that explicitly prohibit hit inflation by the referrer
+and mention that they have "effective software to detect
+such misuse".</font></p>
+
+<p><font face="Times New Roman">The goal of this paper is to explore
+the extent to which hit inflation can be detected or prevented
+in click-through payment programs. The main result of this paper
+is <em>negative</em>: we present a hit inflation attack that on
+one hand is very difficult for the target site (or the ad network
+site, if present) to detect conclusively and that on the other
+hand can be used by the perpetrating referrer to inflate its referral
+count at the target site. The attack allows the referrer to transform
+every visit by a user on any site that is collaborating with the
+referrer into a click through to the target. We have tested the
+attack with both Netscape Navigator and Microsoft Internet Explorer
+browsers.</font></p>
+
+<p><font face="Times New Roman">The practical implications of
+our attack are potentially significant. If our attack becomes
+commonplace, then it could accelerate a move away from pay-per-click
+programs and toward advertising programs where payment is offered
+to a referrer only if the referred user either makes a purchase
+at the target site (<em>pay-per-sale</em>) or shows some demonstrable
+interest (<em>pay-per-lead</em>). Such variations of click-through
+programs have already appeared on the Web, presumably motivated
+by the desire of target sites to pay only for "high quality"
+referrals. Our attack is ineffective against pay-per-sale and
+pay-per-lead programs. However, as we will discuss, these programs
+are susceptible to another form of fraud that present web infrastructure
+offers little ability to detect.</font></p>
+
+<p><font face="Times New Roman">Aside from its potential impact,
+our attack employs an interesting technique. In the attack, two
+collaborating Web sites "team up" so that whenever a
+user visits one of these sites, the click-through count of the
+other Web site is incremented at the target. Moreover, this is
+invisible to the user, and the target has little ability to detect
+that this is not a legitimate referral, even if its webmaster
+suspects that the attack is happening. Rather, to convincingly
+detect this attack, the webmaster of the target must locate the
+Web page on the site that is initiating the attack (i.e., the
+one that the user actually visited), which should be very difficult
+unless the target has prior knowledge of the collaborating Web
+sites.</font></p>
+
+<p><font face="Times New Roman">The rest of this paper is organized
+as follows. We introduce the hit inflation problem in more detail
+in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node2.html#sec:inflation">2</a>. We describe
+our attack in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node3.html#sec:attack">3</a>,
+and we discuss the security of alternative advertising schemes
+(pay-per-sale and pay-per-click) in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node7.html#sec:pay-per-sale">4</a>.</font></p>
+
+<h2><a name="SECTION00020000000000000000"></a><font face="Times New Roman">The
+hit inflation problem</font><a name="sec:inflation"></a><font face="Times New Roman"> </font></h2>
+
+<p><font face="Times New Roman">In order to understand the hit
+inflation problem, we first must understand how a legitimate click-through
+is manifested in HTTP protocol messages. Our initial treatment
+is for the simple case of a click-through program run directly
+by a target site for referrers. The case of a third-party click-through
+program provider will be discussed subsequently.</font></p>
+
+<p><font face="Times New Roman">Let <i>R</i> denote a referring
+site, <i>T</i> denote the target site, and <i>U</i> denote a user's
+Web browser. A click-through begins when <i>U</i> retrieves a
+Web page <tt>pageR.html</tt> from <i>R</i> that contains a hypertext
+link to a page <tt>pageT.html</tt> on site <i>T</i> (see Figure <a href="#fig:click-thru">1</a>). When the user clicks on that link,
+the user's browser issues a request to site <i>T</i> for <tt>pageT.html</tt>.
+An important component of this request is the <tt>Referer</tt>
+header of the HTTP request for <tt>pageT.html</tt>. This header
+is set by the user's browser and names the Web page that "referred"
+the user to <tt>pageT.html</tt>, in this case <tt>pageR.html</tt>.
+<i>T</i> uses this <tt>Referer</tt> header to record the URL of
+the page that referred the user to <tt>pageT.html</tt>, along
+with the IP address of <i>U</i>. <i>T</i> then returns <tt>pageT.html</tt>
+to <i>U</i> for display in the browser.</font></p>
+
+<p></p><center><a name="fig:click-thru"></a><font face="Times New Roman"> <img src="v17_files/fig1.gif" align="bottom" border="0" naturalsizeflag="3" width="591" height="258"></font><a name="313"></a><font face="Times New Roman"> 
+<br>
+</font></center><p></p>
+
+<p><font face="Times New Roman">In a click-through payment program,
+<i>T</i> will periodically pay <i>R</i> some previously agreed-upon
+amount for each click-through from <i>R</i> to <i>T</i>. The fact
+that <i>T</i> pays for click-throughs provides to <i>R</i> an
+incentive to mount hit inflation attacks on <i>T</i>, in which
+<i>R</i> somehow causes <i>T</i>'s record of click-throughs from
+<i>R</i> to be increased above the correct number. Here we do
+not define precisely what the "correct number" is. Rather,
+we simply characterize a hit inflation attack as one in which
+<i>T</i> receives a request for <tt>pageT.html</tt> with a <tt>Referer</tt>
+header naming <tt>pageR.html</tt> when no corresponding Web user
+clicked to <tt>pageT.html</tt> after viewing <tt>pageR.html</tt>.
+For example, a straightforward attempt to inflate <i>R</i>'s click-through
+count is for the webmaster of <i>R</i> to run a program that repeatedly
+sends requests of the appropriate form to <i>T</i>. However, because
+most click-through programs pay only for "unique" referrals,
+i.e., click-throughs from users with different IP addresses, multiple
+click-throughs where the user is at the same site are counted
+as only one click-through for payment purposes. On the side we
+remark that counting unique IP addresses is becoming increasingly
+ineffective, as more user requests are directed through proxy
+servers either due to the default configuration of the usehr's
+ISP (e.g., 99% of AOL subscribers) or to enhance user privacy.</font><a name="tex2html5"></a><font face="Times New Roman"><a href="http://www8.org/w8-papers/1a-electronic-market/security/footnode.html#314"><sup><img src="v17_files/foot_motif.gif" align="bottom" border="1" alt="[*]" naturalsizeflag="3" width="15" height="15"></sup></a></font></p>
+
+<p><font face="Times New Roman">A sophisticated attacker could
+issue multiple requests to <i>T</i> with forged IP source addresses,
+thereby circumventing the unique referrals rule. However, this
+requires a further degree of technical sophistication and effort
+on the attacker's part (see, e.g., [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#Mor85">3</a>]).
+Moreover, these attacks can be detected by <i>T</i>, due to the
+fact that in all likelihood, no browser will receive the response
+from <i>T</i>. So, for example, if <tt>pageT.html</tt> is constructed
+with links to images or other HTML elements that a browser would
+immediately retrieve upon interpreting <tt>pageT.html</tt>, then
+a request for <tt>pageT.html</tt> with a forged IP source address
+will not be followed by requests for the HTML elements contained
+in <tt>pageT.html</tt>. If it is feared that the attacker will
+go one step further and even issue these follow-up requests in
+a predictive fashion to avoid detection, then <i>T</i> can dynamically
+generate <tt>pageT.html</tt> each time with links to different
+URLs (in the limit, containing a nonce in the URL), thereby foiling
+any such attempt by the attacker to predict the URLs to request.
+The end result is that requests with forged IP addresses will
+stand out to <i>T</i> as those for which correct follow-up requests
+were not received. Moreover, the perpetrator of this attack will
+be revealed by the <tt>Referer</tt> field of these requests, as
+this <tt>Referer</tt> field must indicate the referrer that is
+trying to inflate its hits.</font></p>
+
+<p><font face="Times New Roman">Because of the difficulty and
+detectability of IP address forgery attacks, probably the most
+common form of hit inflation today is one in which the referrer
+<i>R</i> forces the user to visit the target <i>T</i> by constructing
+<tt>pageR.html</tt> so as to automatically "click" the
+user to <tt>pageT.html</tt> (e.g., see [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#USA98">6</a>]).
+This simulated click can be accomplished using constructs that
+will also play a role in our attacks; we thus defer an explanation
+of these techniques to Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node3.html#sec:attack">3</a>.
+This simulated click can be visible to the user, in which case
+the user will see, e.g., a new window popped up on his screen
+unsolicited and containing <tt>pageT.html</tt>. Alternatively,
+the window can be hidden from the user (e.g., behind the window
+containing <tt>pageR.html</tt>), so that the user is unaware that
+she is being "used" by <i>R</i> to gain payment from
+<i>T</i>. Regardless of whether this hit inflation is visible
+to the user, it is still the case that these attacks can be detected
+by <i>T</i> if the webmaster of <i>T</i> periodically visits the
+Web pages of the referrers that she pays (preferably from a machine
+outside her own domain, to avoid detection by the referrer). By
+inspecting the constructions in those Web pages, and observing
+the behavior of these pages when interpreted by her browser, the
+webmaster of <i>T</i> can detect that hit inflation is occurring.
+Indeed, this examination could even be automated, as it suffices
+to detect if the referrer's page, when interpreted, causes a request
+to <i>T</i>'s site automatically.</font></p>
+
+<p><font face="Times New Roman">There are numerous variations
+on click-through programs as described above. In particular, in
+a program run by a third-party provider, the interaction differs
+from the above description in that the third party takes the place
+of <i>T</i>. The third party records the click-through and then
+redirects the request to the actual target site. Another variation
+is that some click-through programs do not make use of the HTTP
+<tt>Referer</tt> header, but rather simply have each referrer
+refer to a different URL on the target site. This approach has
+the advantage of not relying on the <tt>Referer</tt> field to
+be set correctly and thus functioning in conjunction with privacy-enhancing
+tools that eliminate the <tt>Referer</tt> field in the HTTP header.
+However, this approach exposes the click-through program to additional
+risks: in particular, the referrer webmaster can broadcast-email
+("spam") his own banner ad to increase its click-through
+count. Thus, most click-through programs of this form explicitly
+prohibit spamming to increase click-throughs, and will cancel
+the referrer's account if the referrer is detected doing so.</font></p>
+
+<p><font face="Times New Roman">None of these variations deter
+the attack we present in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node3.html#sec:attack">3</a>.
+On the contrary, if the <tt>Referer</tt> header is not used by
+the target site, then our attack becomes easier, as will be discussed
+in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node3.html#sec:attack">3</a>.</font></p>
+
+<h2><a name="SECTION00030000000000000000"></a><font face="Times New Roman">Undetectable
+hit inflation for click-through counts</font></h2>
+
+<p><a name="sec:attack"></a><font face="Times New Roman">In this
+section we describe an approach to hit inflation that is very
+effective on two counts: it enables a referrer to inflate hits
+arbitrarily, and it does so in a way that is very difficult for
+the target to detect, even if the target suspects that the attack
+is being conducted. The attack is equally applicable to both direct
+click-throughs from a referrer to a target and third-party click-through
+program providers. Here we present our attack in the context of
+a direct click-through program. Its full implications will be
+discussed in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node6.html#sec:discussion">3.3</a>.</font></p>
+
+<p><font face="Times New Roman">In our attack, the referrer site
+<i>R</i> inflates its click-through count by translating hits
+on <em>another</em> site <i>S</i> that it controls into referrals
+from site <i>R</i> to the target site <i>T</i>. That is, when
+a user visits a certain <tt>pageS.html</tt> on site <i>S</i>--which
+may have no apparent relationship with site <i>R</i>--this has
+the side effect of causing a click-through to be credited to <tt>pageR.html</tt>
+at site <i>T</i>. The webmaster of site <i>T</i> can detect this
+only if she happens to stumble upon <tt>pageS.html</tt> and examines
+it carefully. However, if she has no reason to suspect a relationship
+between <i>R</i> and <i>S</i>, then confirming this attack is
+effectively as difficult as exhaustively searching all pages on
+all Web sites to find <tt>pageS.html</tt>, i.e., the page that
+is originating the hit inflation attack. In particular, retrieving
+<tt>pageR.html</tt> for examination is of no assistance to the
+webmaster of site <i>T</i> in detecting this attack.</font></p>
+
+<p><font face="Times New Roman">At a very high level, the attack
+works as follows; see Figure <a href="#fig:attack">2</a>.
+The page <tt>pageS.html</tt> causes a "simulated click"
+to <tt>pageR.html</tt> on site <i>R</i>. As mentioned previously,
+this simulated click can be done in a way that is invisible to
+the user. This simulated click will cause the user's browser to
+send a request to site <i>R</i> with a <tt>Referer</tt> field
+naming <tt>pageS.html</tt> on site <i>S</i>. In response to this
+request referred by site <i>S</i>, site <i>R</i> returns a <em>modified
+version</em> of <tt>pageR.html</tt> to the browser that in turn
+causes a simulated click to <tt>pageT.html</tt>, the target page.
+This causes the browser to request <tt>pageT.html</tt> from <i>T</i>
+with a <tt>Referer</tt> field naming <tt>pageR.html</tt>, thereby
+causing <i>T</i> to credit site <i>R</i> with the referral. However,
+in response to any request for <tt>pageR.html</tt> that does not
+contain a <tt>Referer</tt> field naming <tt>pageS.html</tt>, site
+<i>R</i> returns the normal and innocuous <tt>pageR.html</tt>
+that, in particular, does not simulate a click to <tt>pageT.html</tt>.
+So, if the webmaster of site <i>T</i> retrieves <tt>pageR.html</tt>
+herself, the page she retrieves yields no evidence of foul play.
+In the following subsections, we detail the components of this
+attack.</font></p>
+
+<p></p><center><a name="fig:attack"></a><font face="Times New Roman"> </font><a name="315"></a><font face="Times New Roman">  </font><table border="0" cellspacing="2" cellpadding="0">
+  <tbody><tr>
+    <td>
+    <img src="v17_files/fig2.gif" align="bottom" border="0" naturalsizeflag="3" width="582" height="330">
+</td>
+  </tr>
+</tbody></table></center><p></p>
+
+<h3><a name="SECTION00031000000000000000"></a><font face="Times New Roman">Simulated
+clicks</font></h3>
+
+<p><a name="sec:simulated_clicks"></a><font face="Times New Roman">A
+component of our attack is the "simulated click", in
+which one Web page (the referrer) causes the user's browser to
+request another Web page (the target) on another Web site, with
+a <tt>Referer</tt> field naming the referrer. Indeed, our attack
+of Figure <a href="http://www8.org/w8-papers/1a-electronic-market/security/node3.html#fig:attack">2</a> consists
+essentially of two simulated clicks, one from <i>S</i> to <i>R</i>
+and one from <i>R</i> to <i>T</i>. The preservation of the <tt>Referer</tt>
+field is critical for a simulated click (and our attack), and
+this requirement rules out some of the most straightforward possible
+implementations: e.g., if the referrer serves a page that "refreshes"
+the browser to the target page using HTML's <tt>&lt;meta&gt;</tt>
+tag (see [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#MK97">4</a>]), then this retrieves
+the target page but does not preserve the <tt>Referer</tt> field.
+As discussed in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node1.html#sec:intro">1</a>,
+simulated clicks are already practiced in hit inflation attacks
+on the Web today. However, presently there seems to be little
+attempt to hide these simulated clicks from users (e.g., see [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#USA98">6</a>]), whereas we use techniques to
+hide simulated clicks from users to limit detectability of our
+attack and the annoyance caused to users.</font></p>
+
+<p><font face="Times New Roman">One feature that makes simulated
+clicks possible is that modern browsers transmit <tt>Referer</tt>
+information not only for pages requested by explicit user clicks,
+but also for components embedded in pages like images, and especially
+subdocuments like frames and layers (see, e.g., [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#MK97">4</a>]
+for an introduction to these constructs in HTML). For example,
+the Web page containing a layer is named in the <tt>Referer</tt>
+header of the request for the document contained in the layer,
+even though no user clicks are involved when the layer contents
+are retrieved. Therefore, a simple and effective simulated click
+can be achieved for Netscape Navigator 4.x (NN4) and Microsoft
+Internet Explorer 4.x (IE4) if the referring site serves a page
+with a layer that contains the target page (NN3 and IE3 do not
+support layers). To hide this simulated click from the user, the
+layer containing the target page can be made of zero size, or
+stacked below the containing document so that it is invisible
+to the user. Another form of simulated click can be achieved using
+frames with IE3 and IE4, since these browsers report the document
+containing a frameset as the <tt>Referer</tt> for the documents
+in each of the frames. Thus, a referrer can create an invisible,
+simulated click to a target by serving a page that contains a
+frameset with a zero-size frame that loads the target page. Interestingly,
+NN3 and NN4 report the <tt>Referer</tt> of the page containing
+the frameset as the <tt>Referer</tt> for each of the documents
+in the frames. Thus, we use layers to conduct a subdocument-based
+simulated click in NN4. It is somewhat more awkward to perform
+a subdocument-based simulated click in NN3. In order to use the
+appropriate form of simulated click, the server can determine
+the user's browser and version from the <tt>User-Agent</tt> header
+in the browser's request.</font></p>
+
+<p><font face="Times New Roman">For reasons that will be described
+in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node5.html#sec:attack_detailed">3.2</a>,
+these subdocument-based forms of simulated click will not suffice
+to make our attack as effective as it can be. Rather we will also
+employ JavaScript for explicitly simulating a click on a link
+(see, e.g., [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#Fla98">2</a>] for more
+information about JavaScript). When a JavaScript script in a Web
+page causes this simulated click on one of its own links, the
+browser behaves as if the user clicked on the link, and thus requests
+the URL of the link and loads it into the browser. In order to
+hide this simulated click from the user, the referring page can
+cause the contents of the "clicked" URL to be loaded
+into a separate window that lies beneath the user's browser window.
+Then the referring page can quickly close this window once the
+referred-to page has started loading, or after a brief duration
+in which the page should have started loading. The attentive user
+might notice an additional window indicated on her desktop toolbar
+for a brief moment, but otherwise this additional window will
+almost certainly go unnoticed by the random user for the brief
+period of time in which it is present. And even if the user does
+notice the additional window, the JavaScript script can still
+prevent the user from exposing it before it is closed by repeatedly
+raising the main browser window above it.</font></p>
+
+<p><font face="Times New Roman">The JavaScript mechanism to simulate
+a click on a link differs slightly from browser to browser, and
+care must be taken to ensure that this simulated click preserves
+the <tt>Referer</tt> field received by the target. In IE4, link
+objects support the <tt>click()</tt> method that, when invoked,
+causes the browser to behave as if a user clicked on the link.
+Referrer information is preserved, i.e., the document containing
+the link is reported to the target Web site as the <tt>Referer</tt>.
+In NN3 and NN4, as well as in IE3, link objects do not have the
+convenient <tt>click()</tt> method. However, using a script to
+send the browser window to the URL corresponding to the link causes
+the script's page to be reported as the referrer to the target
+Web site.</font></p>
+
+<p><font face="Times New Roman">To summarize, the attack that
+we detail in the following section will use two different forms
+of simulated clicking. The first employs a subdocument (i.e.,
+layer or frame) form of simulated click in the referring page
+and will be called a <em>subdocument-based</em> simulated click.
+The second employs JavaScript and will be called the <em>JavaScript</em>
+simulated click.</font></p>
+
+<h3><a name="SECTION00032000000000000000"></a><font face="Times New Roman">Detailing
+the attack</font></h3>
+
+<p><a name="sec:attack_detailed"></a><font face="Times New Roman">As
+described in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node4.html#sec:simulated_clicks">3.1</a>,
+at a high level our attack consists of two simulated clicks, one
+from <i>S</i> to <i>R</i> and one from <i>R</i> to <i>T</i> (see
+Figure <a href="http://www8.org/w8-papers/1a-electronic-market/security/node3.html#fig:attack">2</a>). However, the
+nature of these two simulated clicks is quite different. Recall
+that <i>S</i> and <i>R</i> are collaborating in this attack, and
+indeed it is important for the attack that in the first simulated
+click, <i>R</i> recognizes that the simulated click from <i>S</i>
+is happening (so that it can serve the "attack" version
+of <tt>pageR.html</tt> that causes the simulated click to <i>T</i>).
+On the other hand, in order to make our attack truly undetectable
+to <i>T</i>, it is important that <i>T</i> be <em>unable</em>
+to detect that the referral from <i>R</i> is by a simulated click.
+Because of these conflicting requirements, the two simulated clicks
+in our attack are conducted via different mechanisms.</font></p>
+
+<p><font face="Times New Roman">The simulated click from <i>S</i>
+to <i>R</i>, so that <i>R</i> recognizes the simulated click from
+<i>S</i>, is the easiest to achieve. Since <i>S</i> and <i>R</i>
+are in collaboration, their webmasters can set up the Web sites
+so that <em>any</em> request that <i>R</i> receives for <tt>pageR.html</tt>
+with a <tt>Referer</tt> field of <tt>pageS.html</tt> is by a simulated
+click from <i>S</i>. This can be ensured if <tt>pageS.html</tt>
+has no link to <tt>pageR.html</tt> that can be clicked by the
+user. Thus, the subdocument-based approach of Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node4.html#sec:simulated_clicks">3.1</a>, in which the only
+link to <tt>pageR.html</tt> is for a layer's contents, for example,
+is ideally suited for this simulated click.</font></p>
+
+<p><font face="Times New Roman">The simulated click from <i>R</i>
+to <i>T</i> is more sensitive, as it is essential that <i>T</i>
+be unable to detect that the click is simulated. In particular,
+if JavaScript is enabled in the browser, then a script in <tt>pageT.html</tt>
+could detect the subdocument-based simulated click of Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node4.html#sec:simulated_clicks">3.1</a>. Specifically,
+in current browsers <tt>pageT.html</tt> can use JavaScript to
+detect whether it is displayed in a frame. Moreover, in version
+4 browsers, <tt>pageT.html</tt> can use JavaScript to detect the
+size of its window, layer, or frame, and thus <tt>pageT.html</tt>
+can be designed to detect the case when it is displayed in a zero-size
+frame or layer. For these reasons, <tt>pageR.html</tt> must test
+for various conditions when conducting its simulated click and
+tailor its method of attack to them. Specifically, the simulated
+click from <i>R</i> to <i>T</i> should occur as follows:</font></p>
+
+<dl><dt><font face="Times New Roman">1.</font>
+  </dt><dd><tt><font face="Times New Roman">pageR.html</font></tt><font face="Times New Roman"> first tests if JavaScript is enabled
+  in the browser. If not (i.e., JavaScript is disabled), then it
+  simulates a click to <tt>pageT.html</tt> using the subdocument-based
+  simulated click of Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node4.html#sec:simulated_clicks">3.1</a>.</font>
+  </dd><dt><font face="Times New Roman">2.</font>
+  </dt><dd><font face="Times New Roman">If JavaScript is enabled in
+  the browser (and thus <tt>pageT.html</tt> has greater detection
+  capabilities at its disposal), then <tt>pageR.html</tt> performs
+  the simulated click using the JavaScript method of Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node4.html#sec:simulated_clicks">3.1</a> that directs <tt>pageT.html</tt>
+  to a new window, hidden from the user.</font>
+</dd></dl>
+
+<p><font face="Times New Roman">There is always the possibility
+that the webmaster of site <i>T</i> will request <tt>pageR.html</tt>
+for inspection, and so we remind the reader that for any request
+for <tt>pageR.html</tt> that does <em>not</em> name <tt>pageS.html</tt>
+as the <tt>Referer</tt>, <i>R</i> should respond with an innocuous
+Web page that does not simulate a click to <i>T</i>.</font></p>
+
+<h3><a name="SECTION00033000000000000000"></a><font face="Times New Roman">Discussion</font></h3>
+
+<p><a name="sec:discussion"></a><font face="Times New Roman">The
+attack detailed in this section is effective even if a third-party
+click-through program provider is used. In this case, <i>T</i>
+is the third-party provider and not the actual target site, but
+this distinction has no bearing on the mechanism behind our attack.
+Another difference is that third-party programs often do not make
+use of the <tt>Referer</tt> header for identifying the referrer,
+but rather simply use a different URL per referrer. In this case,
+however, our attack just becomes easier since there may be less
+of a need to retain the correct <tt>Referer</tt> header when performing
+simulated clicks.</font></p>
+
+<p><font face="Times New Roman">Our attack has other implications.
+As mentioned in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node2.html#sec:inflation">2</a>,
+most click-through programs are not agreeable to the use of spamming
+by a referrer to increase click-through counts, and in fact, many
+click-through programs explicitly prohibit the use of spamming
+in their contracts with referrers. Our attack, however, makes
+target sites susceptible to "indirect" spamming that
+is hard to detect: A spammer (an agent of <i>S</i>) can drive
+a large number of users to <i>S</i>, triggering the inflation
+attack. The lack of an obvious relationship between <i>R</i> and
+the spammer or <i>S</i> makes it difficult for the webmaster of
+<i>T</i> to detect this practice.</font></p>
+
+<p><font face="Times New Roman">Many click-through programs desire
+"high quality" referrals, i.e., referrer sites with
+a targeted audience (e.g., technology oriented sites). Our attack
+enables a referrer site <i>R</i> with appropriate content to register
+in the click-through program, while using a different site <i>S</i>
+with completely different content to attract the click-throughs.
+Furthermore, many click-through programs disallow referrers with
+illicit material, regardless of their popularity. Our attack enables
+referrers <i>R</i> to use such sites to draw users and register
+click-throughs for <i>R</i> at the target.</font></p>
+
+<p><font face="Times New Roman">To see the potential for profit
+from this attack, consider that the average click-through rate
+for banner ads is 1-3%, and that payments for click-throughs are
+calculated accordingly. Our attack can yield an effective rate
+of almost 100% for users who visit <tt>pageS.html</tt> and thus
+(unknowingly) click through <tt>pageR.html</tt> to <tt>pageT.html</tt>.
+We can go a step further and use <i>S</i> in conjunction with
+several (say 10) sites <i>R<sub>1</sub></i>,...,<i>R<sub>10</sub></i>
+that are enrolled in different click-through programs, and thereby
+get an effective click-through rate of 1000%. This is undetectable
+as long as the different target sites do not compare the IP addresses
+from which they receive clicks at the same time. (Thus, this multi-target
+attack might be impossible with target sites that are on the same
+third-party click-through program).</font></p>
+
+<p><font face="Times New Roman">An attacker might draw suspicion
+if the target site <i>T</i> monitors the click through rate (CTR)
+of its ads. The target can monitor the CTR if <i>R</i>'s page
+is required to load the ads from a site that is controlled by
+the target. A high click-through rate (say greater than 5%) is
+likely attract the attention of the target's webmaster, if only
+to learn the marketing practices of the referrer. The attacker
+can prevent such inquiries by keeping the CTR low. One way to
+achieve this is to register site <i>R</i> with, say, 20 different
+targets. Whenever <i>R</i> receives a request with a <tt>Referer</tt>
+field naming <tt>pageS.html</tt>, it returns a page containing
+ads for each of the targets, and performs a simulated click on
+one of these ads at random. The attacker is paid for 100% of the
+visits to <i>S</i>, while keeping the CTR below 5% at each target.
+This method can of course be extended to achieve lower CTR or
+higher payment rates.</font></p>
+
+<p><font face="Times New Roman">Another way for the target site
+<i>T</i> to detect the attack is to search for pages that have
+links to <tt>pageR.html</tt>, in an effort to find <tt>pageS.html</tt>.
+A simple approach would be to use existing search engines to find
+pages that refer to <tt>pageR.html</tt>.</font><a name="tex2html7"></a><font face="Times New Roman"><a href="http://www8.org/w8-papers/1a-electronic-market/security/footnode.html#316"><sup><img src="v17_files/foot_motif.gif" align="bottom" border="1" alt="[*]" naturalsizeflag="3" width="15" height="15"></sup></a> However, <i>S</i> can
+easily avoid detection by serving a different, benign version
+of <tt>pageS.html</tt> to spiders of search engines.</font><a name="tex2html8"></a><font face="Times New Roman"><a href="http://www8.org/w8-papers/1a-electronic-market/security/footnode.html#317"><sup><img src="v17_files/foot_motif.gif" align="bottom" border="1" alt="[*]" naturalsizeflag="3" width="15" height="15"></sup></a> A second approach that
+<i>T</i> can try is to perform the search for pages like <tt>pageS.html</tt>
+itself, using a spider. This reconnaissance operation is of almost
+the same scale as building a search engine, and can be complex
+and costly. Moreover, <i>R</i> and <i>S</i> can extend the attack
+in a natural way to use a chain of three or more simulated clicks,
+e.g., from some <i>S</i>' to <i>S</i> to <i>R</i> to <i>T</i>.
+This further complicates efforts to "trace backward"
+along the chain to find the page that initiates the attack.</font></p>
+
+<p><font face="Times New Roman">Probably the most viable way of
+detecting the attack is for <i>T</i> to monitor user activity
+(e.g., mouse movement, mouse clicks, or filling out a form) on
+<i>T</i>'s site. A real user will typically either click further
+into the site or leave the site immediately. The former is easily
+detectable and confirms the existence of a real user. To detect
+the latter case, <tt>pageT.html</tt> could be constructed to include
+a "back" button that both returns the user to the referrer
+page and informs <i>T</i> that the user clicked on this button.
+However, this does not capture the case that a user next directs
+her browser to a bookmarked location, uses the browser's "Back"
+button to leave <i>T</i>'s site, or closes the window containing
+<tt>pageT.html</tt>. Similarly, <tt>pageT.html</tt> could be constructed
+with JavaScript code to inform <i>T</i> of mouse movement over
+<tt>pageT.html</tt>, or to inform <i>T</i> of the length of time
+that the page was active in the browser (e.g., by causing a message
+to be sent to <i>T</i> every few seconds). The latter offers little
+information to <i>T</i> if <tt>pageR.html</tt> closes the window
+containing <tt>pageT.html</tt> after a random amount of time.
+The former, i.e., detecting mouse movement over <tt>pageT.html</tt>,
+possibly lets <i>T</i> confirm that a user sees the page (if the
+user moves the mouse over it). However, again it does not enable
+<i>T</i> to determine that a user did not see the page. In the
+limit, <i>T</i> could occasionally serve a version of <tt>pageT.html</tt>
+that contains a newly generated question for the user to answer
+(and perhaps offers a financial incentive to do so), to see if
+a user responds.</font></p>
+
+<p><font face="Times New Roman">While none of these techniques
+can offer proof that the attack is taking place, they can offer
+<i>T</i> statistical evidence of the attack if the attack is mounted
+aggressively through a single referrer <i>R</i>. As such, detecting
+user activity seems to be the most promising direction for coping
+with this attack, and in fact is the same principle that is behind
+pay-per-lead and pay-per-sale schemes discussed in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node7.html#sec:pay-per-sale">4</a>.</font></p>
+
+<p><font face="Times New Roman">Finally, it is worth noting that
+legal means could also be used to discourage hit inflation attacks.
+Extreme hit inflation attacks could be grounds for a civil lawsuit
+if detected. If the threat of civil action is combined with suitable
+criminal penalties, these threats may effectively deter large-scale
+hit inflation.</font></p>
+
+<h2><a name="SECTION00040000000000000000"></a><font face="Times New Roman">Pay-per-sale
+and pay-per-lead</font></h2>
+
+<p><a name="sec:pay-per-sale"></a><font face="Times New Roman">If
+pay-per-click programs are going to be de-emphasized in the future,
+then it is worth considering the security of the programs that
+are likely to replace them. Presently, the foremost alternative
+to pay-per-click programs are programs in which target sites pay
+only for "high quality" referrals, i.e., for referred
+users who perform some substantial activity or make purchases
+at the target site. There are essentially two forms of such programs:</font></p>
+
+<ul>
+  <li><b><font face="Times New Roman">Pay-per-lead:</font></b><font face="Times New Roman"> Referrers are paid only if the user
+  has performed a significant action at the target site, e.g.,
+  if she registered an account at the target site or performed
+  successive hits at the target site for more than five minutes.</font>
+  </li><li><b><font face="Times New Roman">Pay-per-sale:</font></b><font face="Times New Roman"> Referrers are paid some commission for
+  purchases the user makes at the target site.</font><a name="tex2html9"></a><font face="Times New Roman"><a href="http://www8.org/w8-papers/1a-electronic-market/security/footnode.html#318"><sup><img src="v17_files/foot_motif.gif" align="bottom" border="1" alt="[*]" naturalsizeflag="3" width="15" height="15"></sup></a> Typically the referrer
+  displays a link for a specific item for sale at the target site,
+  and is paid some percentage for purchases of this item by referred
+  users.</font>
+</li></ul>
+
+<p><font face="Times New Roman">Payments in these programs are
+typically larger than in pay-per-click programs, since they are
+more valuable for the target sites.</font></p>
+
+<p><font face="Times New Roman">It is virtually impossible for
+referrer sites to mount useful hit inflation attacks on such schemes,
+since simple clicks are worthless to the referrer. However, these
+programs are susceptible to a different form of fraud, known as
+<em>hit shaving</em>. In hit shaving, the target site fails to
+report that a referred user executed a lead or sale, thereby denying
+the user's referrer rightful payment (regardless of whether a
+third-party program provider is used). Current Web technology
+offers referrers little ability to detect such fraud (cf. [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#RAM98">5</a>]), short of the webmaster of a
+referrer site simply clicking through her own site to the target
+and, e.g., making a purchase to verify that her site is credited
+with this referral. This type of detection can be powerful: even
+if the target site attempts to shave just 5% of the commissions
+it is required to pay, this fraud is expected to be discovered
+after only 20 such probes by the referrer. However, this type
+of detection is not always feasible, for example if the target
+site sells rather expensive items (e.g., cars). In such cases,
+the referrers are presently at the mercy of target sites to faithfully
+report the leads and sales for which the referrers should be paid.</font></p>
+
+<p><font face="Times New Roman">Future versions of browsers may
+provide a mechanism to enable a referrer to monitor the user's
+behavior at a target site to a limited extent. Specifically, at
+Bell Labs we have designed and implemented a new JavaScript security
+model in the free Mozilla source code (see [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#AM98">1</a>]),
+and this is presently being considered for inclusion in Netscape
+5.x browsers. This security model enables (among other things)
+a JavaScript program from one domain to interact with a page loaded
+from a different domain, provided that the latter page allows
+this. This feature can be used to enable the referrer site to
+monitor the user's actions at the target site with a JavaScript
+program. For example, this program could report to the referrer
+when the user registers or makes a transaction at the target site.
+The model further allows the target site to have fine-grained
+control over what information on a page is made available to the
+referrer; e.g., on the sales page, the target could make the total
+purchase amount available without revealing what books the user
+bought or the user's credit card information.</font></p>
+
+<p><font face="Times New Roman">Even this new security architecture,
+however, does not provide machinery sufficient to fully address
+the hit shaving problem in pay-per-lead and pay-per-sale programs.
+This is the case for two reasons. First, the additional exposure
+of user activities to referrers that is enabled by this security
+architecture, which seems to be needed to combat hit shaving,
+may be an unacceptable privacy intrusion for many users. And consequently,
+the security architecture of [<a href="http://www8.org/w8-papers/1a-electronic-market/security/node10.html#AM98">1</a>]
+allows this exposure only with user consent. Thus, the web advertising
+industry may need to consider ways to motivate users to allow
+greater exposure of their web activities to referrers, in order
+to combat the threat of hit shaving. Second, a more common and
+unintentional form of hit shaving occurs when a user clicks from
+a referrer to a target, exits the browser, and then returns directly
+to the target later to explore the site or make a purchase. In
+this case, the referral is (perhaps unintentionally) "shaved",
+and foreseeable web infrastructure offers little machinery for
+the referrer to detect this.</font></p>
+
+<h2><a name="SECTION00050000000000000000"></a><font face="Times New Roman">Conclusion</font></h2>
+
+<p><a name="sec:conclusion"></a><font face="Times New Roman">Pay-per-click
+programs are a popular form of advertising incentive on the Web
+today. We have presented a hit inflation attack on these programs
+that appears to be virtually undetectable to target sites and
+very effective in inflating referral counts. Our attack involves
+two collaborating Web sites, where each user's visit to the first
+causes a target to register a referral from the second. There
+seem to be no sure ways of detecting this attack, short of locating
+the page on the first site that initiates the attack, though testing
+by the target site to attempt to determine if a user sees its
+page may give some indication to the target.</font></p>
+
+<p><font face="Times New Roman">In our opinion, this attack brings
+the viability of pay-per-click programs into question and, if
+practiced widely, may accelerate an ongoing trend to move toward
+pay-per-sale and pay-per-lead programs. As discussed in Section <a href="http://www8.org/w8-papers/1a-electronic-market/security/node7.html#sec:pay-per-sale">4</a>, these programs have
+fraud problems of their own that seem difficult to address given
+today's Web infrastructure. How to achieve sufficient auditability
+to eliminate fraud in these web advertising schemes remains an
+open problem.</font></p>
+
+<h2><a name="SECTION00051000000000000000"></a><font face="Times New Roman">Acknowledgements</font></h2>
+
+<p><font face="Times New Roman">We are very grateful to the anonymous
+reviewers for the 8th International World Wide Web Conference,
+who offered useful comments on how to improve the presentation
+of this work.</font></p>
+
+<h2><a name="SECTIONREF"></a><font face="Times New Roman">References</font></h2>
+
+<dl><dt><a name="AM98"></a><strong><font face="Times New Roman">1</font></strong>
+  </dt><dd><font face="Times New Roman">V. Anupam and A. Mayer. Secure
+  web scripting. <em>IEEE Internet Computing</em> 2(6), December
+  1998.</font>
+  </dd><dt><br>
+  <a name="Fla98"></a><strong><font face="Times New Roman">2</font></strong>
+  </dt><dd><font face="Times New Roman">D. Flanagan. <em>JavaScript:
+  The Definitive Guide</em>. 3rd edition, O'Reilly &amp; Associates,
+  1998.</font>
+  <p> 
+  </p></dd><dt><a name="Mor85"></a><strong><font face="Times New Roman">3</font></strong>
+  </dt><dd><font face="Times New Roman">R. T. Morris. A weakness in
+  the 4.2 BSD Unix TCP/IP software. Computer Science Technical
+  Report 117, AT&amp;T Bell Laboratories, February 25, 1985.</font>
+  <p> 
+  </p></dd><dt><a name="MK97"></a><strong><font face="Times New Roman">4</font></strong>
+  </dt><dd><font face="Times New Roman">C. Musciano and B. Kennedy.
+  <em>HTML: The Definitive Guide</em>. 2nd edition, O'Reilly &amp;
+  Associates, 1997.</font>
+  <p> 
+  </p></dd><dt><a name="RAM98"></a><strong><font face="Times New Roman">5</font></strong>
+  </dt><dd><font face="Times New Roman">M. K. Reiter, V. Anupam, and
+  A. Mayer. Detecting hit shaving in click-through payment schemes.
+  In <em>Proceedings of the 3rd USENIX Workshop on Electronic Commerce</em>,
+  pages 155-166, September 1998.</font>
+  <p> 
+  </p></dd><dt><a name="USA98"></a><strong><font face="Times New Roman">6</font></strong>
+  </dt><dd><font face="Times New Roman">Web surfers wary of "kidnapping"
+  sites. <em>USA Today</em>, September 28, 1998. Available at <i>http://www.usatoday.com/life/cyber/tech/ctd540.htm</i>.</font>
+</dd></dl>
+
+<h2><a name="SECTION00070000000000000000"></a><font face="Times New Roman">Vitae</font></h2>
+
+<p><font face="Times New Roman">Vinod Anupam is a member of the
+Database Systems Research Department in the Systems and Software
+Research Center of Bell Labs, Lucent Technologies. He received
+a Ph.D. in Computer Science from Purdue University in 1994. His
+research interests include Collaborative Computing, Internet and
+Web Security, Electronic Commerce, Graphics and Visualization,
+and Mobile Computing.</font></p>
+
+<p></p><center><a name="fig:vinod"></a><font face="Times New Roman"> </font><a name="287"></a><font face="Times New Roman">  </font><table border="0" cellspacing="2" cellpadding="0">
+  <tbody><tr>
+    <td align="center">
+    <img src="v17_files/anupam.gif" naturalsizeflag="3" align="bottom" width="129" height="116">
+</td>
+  </tr>
+  <tr>
+    <td align="center">
+    Vinod Anupam</td> 
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+</tbody></table></center><p></p>
+
+<p><font face="Times New Roman">Alain Mayer is a Research Scientist
+in the Secure Systems Research Dept. at Bell Labs /Lucent Technologies.
+He joined Bell Labs in September 1996 from System Management Arts,
+(SMARTS), a network management start-up company. He received his
+Ph.D. in Computer Science in 1995 from Columbia University. Alain's
+research interests include electronic commerce, network and Web
+security, cryptography, privacy, and network management. During
+1999, he is serving on the program committee of both the <tt>USENIX
+Security Symposium</tt> and the <tt>ACM Conference on Computer
+and Communications Security</tt>.</font></p>
+
+<p></p><center><a name="fig:alain"></a><font face="Times New Roman"> </font><a name="294"></a><font face="Times New Roman">  </font><table border="0" cellspacing="2" cellpadding="0">
+  <tbody><tr>
+    <td align="center">
+    <img src="v17_files/alain.jpg" naturalsizeflag="3" align="bottom" width="162" height="207">
+</td>
+  </tr>
+  <tr>
+    <td align="center">
+    Alain Mayer</td> 
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center">
+    <img src="v17_files/kobbi.jpg" naturalsizeflag="3" align="bottom" width="119" height="158">
+</td>
+  </tr>
+  <tr>
+    <td align="center">
+    Kobbi Nissim</td> 
+  </tr>
+</tbody></table></center><p></p>
+
+<p><font face="Times New Roman">Benny Pinkas is a Computer Science
+doctoral student at the Department of Applied Math and Computer
+Science of the Weizmann Institute of Science, Rehovot, Israel.
+He received his B.A. (Summa Cum Laude) and his M.Sc., both in
+Computer Science, from the Technion - Israel Institute of Technology,
+in 1988 and 1991, respectively. During 1991-1996 he served in
+the Israel Defense Forces, where he worked in computer science
+and communications research and development. His main research
+interests are Computer Security and Cryptography, and in particular
+communication efficient security protocols. His research is supported
+by an Eshkol Fellowship from the Israeli Ministry of Science.</font></p>
+
+<p></p><center><a name="fig:benny"></a><font face="Times New Roman"> </font><a name="299"></a><font face="Times New Roman">  </font><table border="0" cellspacing="2" cellpadding="0">
+  <tbody><tr>
+    <td align="center">
+    <img src="v17_files/bennyp.jpg" naturalsizeflag="3" align="bottom" width="154" height="207">
+</td>
+  </tr>
+  <tr>
+    <td align="center">
+    Benny Pinkas</td> 
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+</tbody></table></center><p></p>
+
+<p><font face="Times New Roman">Michael K. Reiter (www.bell-labs.com/user/reiter)
+is Department Head of the Secure Systems Research Department in
+Bell Laboratories, Lucent Technologies. He received the B.S. degree
+in mathematical sciences from the University of North Carolina
+in 1989, and the M.S. and Ph.D. degrees in computer science from
+Cornell University in 1991 and 1993, respectively. During 1998-2000,
+he will serve as Program Chair of the flagship computer security
+conferences of both the Association for Computing Machinery (ACM)
+and the Institute of Electrical and Electronic Engineers (IEEE).
+Dr. Reiter's research interests include all areas of computer
+and communications security, electronic commerce, and distributed
+computing.</font></p>
+
+<p></p><center><a name="fig:mike"></a><font face="Times New Roman"> </font><a name="304"></a><font face="Times New Roman">  </font><table border="0" cellspacing="2" cellpadding="0">
+  <tbody><tr>
+    <td align="center">
+    <img src="v17_files/Reiter.jpg" naturalsizeflag="3" align="bottom" width="131" height="189">
+</td>
+  </tr>
+  <tr>
+    <td align="center">
+    Michael Reiter</td> 
+  </tr>
+</tbody></table></center>
+
+<p><font face="Times New Roman"> <br>
+<hr align="left"></font>
+
+</p></body></html>
