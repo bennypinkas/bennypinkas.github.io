@@ -33,7 +33,7 @@ title: Benny Pinkas
 
 url: bennypinkas.github.io
 baseurl:
-
+  
 theme: minima
 #plugins:
 #  - jekyll-feed
