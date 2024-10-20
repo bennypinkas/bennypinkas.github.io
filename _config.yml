@@ -31,6 +31,9 @@ title: Benny Pinkas
 
 # Build settings
 
+url: bennypinkas.github.io
+baseurl:
+
 theme: minima
 #plugins:
 #  - jekyll-feed
