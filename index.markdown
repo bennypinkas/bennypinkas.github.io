@@ -16,6 +16,7 @@ title: Benny Pinkas
 - During the 2011/2 academic year I was on sabbatical at [Google Research](http://www.google.com/). I previously worked at the [University of Haifa](https://cs.hevra.haifa.ac.il/index.php/en/), at HP Labs in Haifa and in Princeton, and at [STAR Labs](http://web.archive.org/web/*/http:/www.star-lab.com/), [Intertrust Technologies](http://www.intertrust.com/).  
 - Before that I was a Ph.D. student of [Moni Naor](http://www.wisdom.weizmann.ac.il/%7Enaor)
 at the [Weizmann Institute of Science](http://www.wisdom.weizmann.ac.il/).
+- I am an [IACR Fellow](https://iacr.org/fellows/2022/pinkas.html)
 
 ---  
 ## Research highlights
