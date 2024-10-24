@@ -13,12 +13,15 @@ title: Benny Pinkas
 
 ---  
 ### Interests:  
-- **I am interested in applied cryptography, computer security, blockchain security, and privacy, focusing on the design of efficient security systems based on sound assumptions and solid proofs.**  
+- **I am interested in applied cryptography, computer security, blockchain security, and privacy, focusing on the design of efficient security systems based on sound assumptions and solid proofs.** 
+
+### Short bio:   
+- I am an [IACR Fellow](https://iacr.org/fellows/2022/pinkas.html)
 - From September 2022 to October 2024 I worked at [Aptos Labs](https://aptoslabs.com/).
+- From 2019 to 2022 I was the director of the BIU Center for Research in Applied Cryptography and Cyber Security 
 - During the 2011/2 academic year I was on sabbatical at [Google Research](http://www.google.com/). I previously worked at the [University of Haifa](https://cs.hevra.haifa.ac.il/index.php/en/), at HP Labs in Haifa and in Princeton, and at [STAR Labs](http://web.archive.org/web/*/http:/www.star-lab.com/), [Intertrust Technologies](http://www.intertrust.com/).  
 - Before that I was a Ph.D. student of [Moni Naor](http://www.wisdom.weizmann.ac.il/%7Enaor)
 at the [Weizmann Institute of Science](http://www.wisdom.weizmann.ac.il/).
-- I am an [IACR Fellow](https://iacr.org/fellows/2022/pinkas.html)
 
 ---  
 ## Research highlights
