@@ -17,8 +17,10 @@ title: Benny Pinkas
 
 ### Short bio:   
 - I am an [IACR Fellow](https://iacr.org/fellows/2022/pinkas.html)
-- From September 2022 to October 2024 I worked at [Aptos Labs](https://aptoslabs.com/).
+- I am a professor at [Bar Ilan University](https://biu.ac.il/en)
+- From September 2022 to October 2024 I worked at [Aptos Labs](https://aptoslabs.com/)
 - From 2019 to 2022 I was the director of the BIU Center for Research in Applied Cryptography and Cyber Security 
+- From 2017 to 2022, I was an affiliate member of the [VMware Research Group](https://x.com/vmwareresearch?lang=en)
 - During the 2011/2 academic year I was on sabbatical at [Google Research](http://www.google.com/). I previously worked at the [University of Haifa](https://cs.hevra.haifa.ac.il/index.php/en/), at HP Labs in Haifa and in Princeton, and at [STAR Labs](http://web.archive.org/web/*/http:/www.star-lab.com/), [Intertrust Technologies](http://www.intertrust.com/).  
 - Before that I was a Ph.D. student of [Moni Naor](http://www.wisdom.weizmann.ac.il/%7Enaor)
 at the [Weizmann Institute of Science](http://www.wisdom.weizmann.ac.il/).
@@ -40,7 +42,7 @@ In addition to research on MPC, I often do research on other aspects of cyber se
 
 ---  
 ## Videos
-Some [Youtube video](https://www.youtube.com/results?search_query=benny+pinkas), including a recent talk on [Distributed randomness using weighted VRFs](https://www.youtube.com/watch?v=-QrKQ0nIX4s), and old popular talks on [Oblivious RAM - ORAM](https://www.youtube.com/watch?v=3RWyVGwG9U8), [ZK for Sudoku](https://www.youtube.com/watch?v=_tGDoys_w5c), [Sigma protocols](https://www.youtube.com/watch?v=XT1Pad0DM24), and [Private Set Intersection - PSI](https://www.youtube.com/watch?v=iXopZ7A7dM0).
+Some [Youtube videos](https://www.youtube.com/results?search_query=benny+pinkas), including a recent talk on [Distributed randomness using weighted VRFs](https://www.youtube.com/watch?v=-QrKQ0nIX4s), and old popular talks on [Oblivious RAM - ORAM](https://www.youtube.com/watch?v=3RWyVGwG9U8), [ZK for Sudoku](https://www.youtube.com/watch?v=_tGDoys_w5c), [Sigma protocols](https://www.youtube.com/watch?v=XT1Pad0DM24), and [Private Set Intersection - PSI](https://www.youtube.com/watch?v=iXopZ7A7dM0).
 
 ---  
 ## Publications  
