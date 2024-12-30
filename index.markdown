@@ -49,14 +49,18 @@ Some [Youtube videos](https://www.youtube.com/results?search_query=benny+pinkas)
 **A Google Scholar [list of my papers](https://scholar.google.com/citations?user=tpMNnPwAAAAJ&hl=en) ranked by their citation count, and related statistics, are available at Google Scholar.**
 
 
-- **Verifiable Secret Sharing Simplified**  
-  Sourav Das, Zhuolun Xiang, Alin Tomescu, Alexander Spiegelman, Benny Pinkas, and Ling Ren
-  Accepted to *IEEE S&P 2025*  
-  [ePrint](https://eprint.iacr.org/2023/1196)
+- **Efficiently-Thresholdizable Batched Identity Based Encryption, with Applications**  
+  Amit Agarwal, Rex Fernando, and Benny Pinkas  
+  [ePrint](https://eprint.iacr.org/2024/1575)
 
 - **Distributed Randomness using Weighted VRFs**  
   Sourav Das, Benny Pinkas, Alin Tomescu, and Zhuolun Xiang  
  [ePrint](https://eprint.iacr.org/2024/198)
+
+- **Verifiable Secret Sharing Simplified**  
+  Sourav Das, Zhuolun Xiang, Alin Tomescu, Alexander Spiegelman, Benny Pinkas, and Ling Ren
+  Accepted to *IEEE S&P 2025*  
+  [ePrint](https://eprint.iacr.org/2023/1196)
 
 - **Distributing Keys and Random Secrets with Constant Complexity**  
   Benny Applebaum and Benny Pinkas  
