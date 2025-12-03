@@ -18,6 +18,7 @@ title: Benny Pinkas
 ### Short bio:   
 - I am an [IACR Fellow](https://iacr.org/fellows/2022/pinkas.html)
 - I am a professor at [Bar Ilan University](https://biu.ac.il/en)
+- Research scientist at [Apple](https://www.apple.com), working on privacy for machine learning
 - From September 2022 to October 2024 I worked at [Aptos Labs](https://aptoslabs.com/)
 - From 2019 to 2022 I was the director of the BIU Center for Research in Applied Cryptography and Cyber Security 
 - From 2017 to 2022, I was an affiliate member of the [VMware Research Group](https://x.com/vmwareresearch?lang=en)
@@ -48,18 +49,23 @@ Some [Youtube videos](https://www.youtube.com/results?search_query=benny+pinkas)
 ## Publications  
 **A Google Scholar [list of my papers](https://scholar.google.com/citations?user=tpMNnPwAAAAJ&hl=en) ranked by their citation count, and related statistics, are available at Google Scholar.**
 
+- **Weighted Batched Threshold Encryption with Applications to Mempool Privacy**  
+  Amit Agarwal, Kushal Babel, Sourav Das, Babak Poorebrahim Gilkalaye, Arup Mondal, Benny Pinkas, Peter Rindal, and Aayush Yadav    
+  [ePrint](https://eprint.iacr.org/22025/2115)
 
 - **Efficiently-Thresholdizable Batched Identity Based Encryption, with Applications**  
   Amit Agarwal, Rex Fernando, and Benny Pinkas  
+  *Crypto 2025*    
   [ePrint](https://eprint.iacr.org/2024/1575)
 
 - **Distributed Randomness using Weighted VRFs**  
   Sourav Das, Benny Pinkas, Alin Tomescu, and Zhuolun Xiang  
+  *Eurocrypt 2025*  
  [ePrint](https://eprint.iacr.org/2024/198)
 
 - **Verifiable Secret Sharing Simplified**  
-  Sourav Das, Zhuolun Xiang, Alin Tomescu, Alexander Spiegelman, Benny Pinkas, and Ling Ren
-  Accepted to *IEEE S&P 2025*  
+  Sourav Das, Zhuolun Xiang, Alin Tomescu, Alexander Spiegelman, Benny Pinkas, and Ling Ren  
+ *IEEE S&P 2025*  
   [ePrint](https://eprint.iacr.org/2023/1196)
 
 - **Distributing Keys and Random Secrets with Constant Complexity**  
@@ -115,7 +121,8 @@ Yaniv Ben-Itzhak, Helen Möllering, Benny Pinkas, Thomas Schneider, Ajith Suresh
   [paper](https://arxiv.org/pdf/2009.01534.pdf)
 
 - Daniel Günther, Marco Holz, Benjamin Judkewitz, Helen Möllering, Benny Pinkas, and Thomas Schneider  
-  **PEM: Privacy-preserving Epidemiological Modeling**  
+  **PEM: Privacy-preserving Epidemiological Modeling** 
+  *IEEE Trans. Inf. Forensics Secur. 20: 3088-3101 (2025)* 
   [paper](https://eprint.iacr.org/2020/1546)
 
 - Ittai Abraham, Benny Pinkas, and Avishay Yanai  
