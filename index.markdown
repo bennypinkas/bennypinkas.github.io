@@ -51,7 +51,7 @@ Some [Youtube videos](https://www.youtube.com/results?search_query=benny+pinkas)
 
 - **Weighted Batched Threshold Encryption with Applications to Mempool Privacy**  
   Amit Agarwal, Kushal Babel, Sourav Das, Babak Poorebrahim Gilkalaye, Arup Mondal, Benny Pinkas, Peter Rindal, and Aayush Yadav    
-  [ePrint](https://eprint.iacr.org/22025/2115)
+  [ePrint](https://eprint.iacr.org/2025/2115)
 
 - **Efficiently-Thresholdizable Batched Identity Based Encryption, with Applications**  
   Amit Agarwal, Rex Fernando, and Benny Pinkas  
